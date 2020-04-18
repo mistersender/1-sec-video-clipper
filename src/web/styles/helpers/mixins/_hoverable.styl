@@ -1,0 +1,41 @@
+
+// TODO: add media queries that target windows high contrast mode and use borders instead of box sizing for it.
+hoverable(is_clickable = true, base_hover_color = 'primary', base_text_color = 'text', base_border_color = 'none', lighten_on_interaction = true)
+  transition: all site.form.transition ease-out
+  border-radius: site.border.radius
+  has_border = false
+  
+  // hoverables, by default are considered to have no border styling. therefore, if we
+  // do send in a border style by default, it changes the styles to use the actual border instead of deriving one close to the hover color
+  if(base_border_color == 'none')
+    border 0.1rem solid transparent
+  else
+    has_border = true
+    border 0.1rem solid get-color(base_border_color)
+  
+  &:hover, &:focus
+      hover_border_color = has_border ? get-color(base_border_color) : get-color(base_hover_color, -4)
+      background: lighten_on_interaction ? get-color(base_hover_color, -5) : get-color(base_hover_color, 2)
+      border-color hover_border_color
+      outline none
+      cursor: is_clickable ? unquote('pointer') : unquote('initial')
+      color get-color(base_text_color)
+      text-decoration none
+      if(has_border)
+        box-shadow: 0 0 0 .1rem hover_border_color inset
+  // never allow disableds to have styles
+  &:disabled
+    box-shadow: none
+    border-width 0.1rem
+    border-color: currentColor
+    opacity: .5
+    color: get-color('gray')
+    cursor: not-allowed
+  
+  if(is_clickable)
+      &:active
+        active_border_color = has_border ? get-color(base_border_color, 2) : get-color(base_hover_color, -2)
+        background: lighten_on_interaction ? get-color(base_hover_color, -4) : get-color(base_hover_color, -1)
+        border-color active_border_color
+        box-shadow: has_border ? 0 0 0 .2rem active_border_color inset : 0 0 0 .1rem active_border_color inset
+        color get-color(base_text_color, 2)

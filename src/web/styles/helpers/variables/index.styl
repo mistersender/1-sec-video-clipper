@@ -1,0 +1,13 @@
+// add all site level defaults, both bootstrap & stylus
+@require '_site'
+
+// add all icon variables into site defaults
+// @require '_icons'
+
+// if the "override" variable exists, it will override anything set above
+// in the official "site" variables.
+// push ALL the variables we have set up into the global `site` variable
+site := merge(defaults, overrides, true)
+
+// ensure "defaults" is not referenced outside of the internal file. "site" should be used insteaad.
+defaults = null 

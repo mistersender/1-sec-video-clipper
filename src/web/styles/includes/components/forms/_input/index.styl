@@ -1,0 +1,83 @@
+////
+/// @author Jessica Kennedy
+/// @page elements/forms
+////
+
+/// @name Input
+/// @description
+/// This is a basic form input. With inputs that have no identifying label in the html, it is important to remember to add an `aria-label` to identify the form element to screen readers.
+/// Required inputs should always contain the `aria-required="true"` attribute on the physical input to allow screen readers to understand it's necessity.
+///
+/// @markup {html}
+/// <!-- the most basic form field, not required, no validation (see fancy input for validation) -->
+/// <input name="firstName" aria-label="First Name" type="text" placeholder="basic input" class="inm-input">
+///
+/// <!-- demonstrating a "required" form field -->
+/// <input name="lastName" aria-label="Last Name" aria-required="true" type="text" placeholder="basic input" class="inm-input" value="Input with value">
+///
+/// <!--- demonstrating a "disabled" form field --->
+/// <input name="favoriteColor" aria-label="Favorite Color" type="text" disabled class="inm-input" value="Disabled input">
+///
+@require './_mixin.styl'
+
+.c-input
+  //Includes &__field and &__descriptor
+  mixin_input(apply_simplified_bem: true)
+
+  /// @name Fancy Input
+  /// @description
+  /// Sometimes, Inputs require more enhancements than a basic input. For example, an input may need an icon (such as a date field).
+  ///
+  /// Often, there may be need to add a message to an input, for example if some error messaging is neccesary.
+  /// This can easily be accomplished by adding a `data-message` attribute to the wrapping label, as
+  /// demonstrated.
+  ///
+  /// @markup {html}  [window_styles=height: 410px;]
+  /// <label class="${@state}">
+  ///   <input name="firstName" type="text" placeholder="no message input" class="inm-input__field" aria-label="First Name">
+  /// </label>
+  /// <br>
+  /// <label class="${@state}" data-message="This is an input message">
+  ///   <input name="lastName" type="text" placeholder="fancy input example" class="inm-input__field" aria-label="Last Name">
+  /// </label>
+  /// <br>
+  /// <label class="${@state}">
+  ///   <input name="address1" type="text" aria-required="true" value="required fancy input, no msg" class="inm-input__field" aria-label="Address 1">
+  /// </label>
+  /// <br>
+  /// <label class="${@state}" data-message="">
+  ///   <input name="address1" type="text" disabled value="disabled input" class="inm-input__field" aria-label="Address 2">
+  /// </label>
+  /// <br>
+  /// <div class="${@state} inm-input--warning" data-message="a toggleable input with a message">
+  ///   <input name="secretPIN" type="number" placeholder="field always with validation" class="inm-input__field">
+  /// </div>
+
+  ///# @state {inm-input--date}
+  &--date
+    mixin_input--date()
+
+  ///# @state {inm-input--valid}
+  &--valid
+    mixin_input--valid()
+
+  ///# @state {inm-input--invalid} - Invalids should be used to convey "terminal" errors that are not fixable by a user
+  &--invalid
+    mixin_input--invalid()
+  
+  ///# @state {inm-input--warning} - Warnings should be used to convey fixable errors to a user, or problems where users are about to do something they may not intend.
+  &--warning
+    mixin_input--warning()
+  
+  ///# @state {inm-input--limit} - Limits the maximum size of the input to 320px. Intended to be used in conjunction with other modifiers if desired.
+  &--limit
+    mixin_input--limit()
+  
+  ///# @state {inm-input--toggle-hidden} - show/hide the contents of an input
+  &--toggle-hidden
+    mixin_input--toggle-hidden()
+
+// This is a part of a clever hack for being able to know when a node has been inserted into the DOM.
+// https://davidwalsh.name/detect-node-insertion
+input, select, textarea
+  detect_node_insertion()

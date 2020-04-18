@@ -1,0 +1,61 @@
+
+////
+/// @author Jessica Kennedy
+/// @page elements/components
+////
+
+/// @name Loading Bar
+/// @description
+/// A simple bar intended to be used as a placeholder for content that has not yet loaded.
+///
+/// @markup {html}
+/// <p class='${@state}'>loading</p>
+/// <h3 class='${@state}'>loading</h3>
+.c-loading-bar
+  base = get-color('border', 1)
+  highlight = get-color('white')
+  barwidth = 20em
+  ///# @state {inm-loading-bar}
+  +simplified_bem()
+    position relative
+    color transparent
+
+    &:before
+      content: ""
+      font-size: 10px
+      display block
+      border-radius 1em
+      background: base
+      width: calc(100% - 1em)
+      height: 1em
+      position absolute
+      top: calc(50% - .5em)
+      margin: 0 .5em
+      animation: lineload 2s infinite
+      z-index: 1
+      opacity 1
+      transition: opacity 0.2s ease-out
+
+  ///# @state {inm-loading-bar--no-animation}
+  &--no-animation:before
+    animation none
+
+  @keyframes lineload
+    0
+      box-shadow: 0em 0 5em -2em base inset,
+      barwidth 0 5em -2em highlight inset
+    .1%
+      box-shadow: 0em 0 5em -2em base inset,
+      barwidth 0 5em -2em highlight inset
+
+    100%
+      box-shadow: (200em - barwidth) 0 5em -2em base inset,
+      200em 0 5em -2em highlight inset
+  
+  ///# @state {inm-loading-bar--loaded} Intended to be added to an element once the data for it is loaded in. Will handle fading out the placeholder gracefully to display the content.
+  &--loaded
+    color: inherit
+    &:before
+      opacity: 0
+      z-index: -1
+      transition: opacity 0.2s ease-out, z-index 1ms ease-out 0.21s

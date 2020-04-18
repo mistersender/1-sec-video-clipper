@@ -1,0 +1,122 @@
+$checkbox-size = 1.4em
+$checkbox-size--table = 1.3em
+$silent.checkbox_radio
+  display flex
+  flex-flow row nowrap
+  justify-content: flex-start
+  position relative
+  line-height 1em
+  border-radius: site.border.radius
+  min-height: site.form.input_height
+  align-items: center
+  padding: 1rem
+  hoverable()
+  detect_node_insertion()
+  &.c-is-focused
+    @extends $silent.checkbox_radio:hover
+  &.c-is-active
+    @extends $silent.checkbox_radio:active
+
+  &::before
+    content: ""
+    width: $checkbox-size
+    height $checkbox-size
+    margin-right 1rem
+    border-radius: site.border.radius
+    border: 0.1rem solid currentColor
+    box-shadow: 0 0 0 0.1em get-color('white') inset, 0 0 0 5em get-color('white') inset
+    transition: box-shadow site.form.transition ease-out
+
+  &.c-is-checked
+    background-color get-color('highlight')
+    
+    &::before
+      box-shadow: 0 0 0 0.1em get-color('white') inset, 0 0 0 5em currentColor inset
+  
+  &.c-is-disabled
+    color: get-color('gray')
+    background: get-color("gray", -5)
+    opacity: 0.8
+    cursor: not-allowed
+    box-shadow: none
+    
+    &:hover, &:active, &:focus
+      //Set transparent instead of removing the border as hoverable() has a transparent border when not hovered.
+      // Don't want to visually jump due to removing the border.
+      border-color: transparent
+      box-shadow: none
+    
+    &::before, &.c-is-disabled:before
+      box-shadow: 0 0 2em get-color('gray', -3) inset
+      background: get-color('gray', -3)
+      border-color: get-color("gray", -3)
+
+mixin_checkbox(apply_simplified_bem = false)
+  _checkBackgroundSize = 2.5rem
+
+  // .c-checkbox, inm-checkbox--*
+  +conditional_simplified_bem(apply_simplified_bem)
+    & //Place the bem-ified styles under an & selector to handle a bug in stylus with mixin blocks and @extends
+      @extends $silent.checkbox_radio
+
+    &.c-is-checked
+
+      &::before
+        add-icon('checkbox-checked', get-color("primary"))
+        box-shadow: none
+        background-size: _checkBackgroundSize _checkBackgroundSize // this must be explicitly set for bot x & y to accomodate for an ie11 quirk
+      
+      &.c-is-disabled::before // override here also to fix specificity issue
+        box-shadow: 0 0 2em get-color('gray', -3) inset
+        background: get-color('gray', -3)
+        border-color: get-color("gray", -3)
+
+  // .c-checkbox__field
+  // essentially place this in the same place it would be so it remains tabbable
+  &__field
+    opacity: 0
+    position absolute
+    width 1.2em
+    height 1.2em
+    cursor pointer
+
+  // .c-checkbox__label
+  &__label
+    flex 1 1 100%
+    cursor pointer
+
+// .c-checkbox--inline
+mixin_checkbox--inline()
+  display: inline-flex
+
+// .c-checkbox--top
+mixin_checkbox--top()
+  align-items: flex-start
+
+// .c-checkbox--table
+mixin_checkbox--table()
+  min-height 1em
+  margin 0
+  padding 0
+  &:active, &:focus, &:hover, &.c-is-checked, &.c-is-focused
+    background transparent
+    border-color transparent
+    box-shadow none
+  &:before, &:after
+    padding: 0
+    margin: 0
+    width: $checkbox-size--table
+    height: $checkbox-size--table
+    line-height: $checkbox-size--table
+    top: calc(50% - 0.4em)
+
+// .c-checkbox--only
+mixin_checkbox--only()
+  min-height 1em
+  margin 0
+  padding 0
+  margin-right 0
+  width: ($checkbox-size + .1em) //Give extra room needed by the ::before to render properly
+  &:before
+    top: calc(50% - 0.4em)
+    margin-right 0

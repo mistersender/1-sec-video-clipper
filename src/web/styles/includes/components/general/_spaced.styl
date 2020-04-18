@@ -1,0 +1,134 @@
+////
+/// @author Jessica Kennedy
+/// @page elements/utils, layout/grid
+/// @title Utils
+////
+
+/// @name Grid Spacing
+/// @description
+/// This is a util for adding simple spacing around objects' direct children. The child objects can be
+/// any element, not just the ones in the example. The Spacing is surprisingly powerful and **can virtually replace the need for a grid**
+///
+/// In addition, label/inputs may also be spaced in a container vertically:
+///
+/// ```html
+/// <div class="inm-spaced--vertical">
+///   <label class="inm-label--required" for="inp_sample1">Sample 1</label>
+///   <label class="inm-input">
+///     <input id="inp_sample1" class="inm-input__field" type="text" name="firstName">
+///   </label>
+///   <label class="inm-label--required" for="inp_sample2">Sample 2</label>
+///   <label class="inm-input">
+///     <input id="inp_sample2" class="inm-input__field" type="text" name="address">
+///   </label>
+/// </div>
+/// ```
+///
+/// @markup {html} [window_styles=height: 405px;]
+/// <div class="${@state} sg-spaced-example">
+///  <div>Example child</div>
+///  <span>Example child</span>
+/// </div>
+///
+.c-spaced
+  ///# @state {inm-spaced} horizontally spaces child items out, filling the full width of the container
+  +simplified_bem()
+    display: flex
+    flex-flow: row wrap
+    justify-content: flex-start
+    align-items: stretch
+
+    @media (min-width: 768px)
+      flex-flow: row nowrap
+
+    & > *
+      flex 1 1 100%
+      
+      @media (min-width: 768px)
+        flex 1 1 auto // must specify "auto" for ie11 compatability
+
+    & > * + *
+      margin-top: site.spacing.md
+
+      @media (min-width: 768px)
+        margin-top: 0
+        margin-left: site.spacing.md
+      
+      @media (min-width: 950px)
+        margin-left: site.spacing.lg
+    
+  ///# @state {inm-spaced--horizontal} While horizontal spacing is the default at large breakpoints for inm-spaced, this forces horizontal spacing on items even at xs breakpoints.
+  &--horizontal
+    flex-flow: row nowrap
+    
+    & > *
+      flex 1 1 auto
+    
+    & > * + *
+      margin-top: 0
+      margin-left: site.spacing.sm
+
+      @media (min-width: 768px)
+        margin-left: site.spacing.md
+      
+      @media (min-width: 950px)
+        margin-left: site.spacing.lg
+
+
+  ///# @state {inm-spaced--compact} horizontally spaces child items out, but does not stretch them, they only take the space required
+  &--compact
+    & > *
+      flex-grow: 0
+      flex-shrink: 0
+      
+      @media (min-width: 768px)
+        flex-grow: 0
+        flex-shrink: 0
+
+  ///# @state {inm-spaced--vertical} vertically spaces child items out
+  &--vertical
+    flex-direction: column
+
+    & > * + *
+      margin-left: 0
+      margin-top: site.spacing.md
+      
+      @media (min-width: 950px)
+        margin-top: site.spacing.lg
+
+
+    // add a special-case override for label + input situations so we don't have to wrap
+    // them even more to make them space naturally
+    & > .c-label + .c-input,
+    & > [class^='inm-label--'] + .c-input,
+    & > [class*=' inm-label--'] + .c-input,
+
+    & > .c-label + [class^='inm-input--'],
+    & > [class^='inm-label--'] + [class^='inm-input--'],
+    & > [class*=' inm-label--'] + [class^='inm-input--'],
+
+    & > .c-label + [class*=' inm-input--'],
+    & > [class^='inm-label--'] + [class*=' inm-input--'],
+    & > [class*=' inm-label--'] + [class*=' inm-input--']
+      margin-top: 0
+
+  ///# @state {inm-spaced--separated} adds a border between child items (horizontally spaced)
+  &--separated
+    & > * + *
+      margin-top: (site.spacing.md * 2)
+      // essentially this is going to make a 1px line on the left that takes up no actual space
+      box-shadow: 0 (0 - site.spacing.md) 0 get-color('white'),
+        0 (0 - site.spacing.md - .1rem) 0 get-color('border')
+      
+      @media (min-width: 768px)
+        margin-top: 0
+        margin-left: (site.spacing.md * 2)
+        // essentially this is going to make a 1px line on the left that takes up no actual space
+        box-shadow: -(site.spacing.md - .1rem) 0 0 get-color('white'),
+          -(site.spacing.md) 0 0 get-color('border')
+      
+      @media (min-width: 950px)
+        margin-left: (site.spacing.lg * 2)
+        // essentially this is going to make a 1px line on the left that takes up no actual space
+        box-shadow: -(site.spacing.lg - .1rem) 0 0 get-color('white'),
+          -(site.spacing.lg) 0 0 get-color('border')

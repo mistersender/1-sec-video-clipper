@@ -1,0 +1,43 @@
+////
+/// @author Jessica Kennedy
+/// @page elements/components
+/// @name Components
+////
+
+/// @name Message
+/// @description
+/// Use these classes for displaying important to users.  These should only be used to convey additional emphasis.
+///
+/// @markup {html} [window_styles=height: 225px;]
+/// <p class="${@state}">
+///  This is a simple non-dismissible ${@state} message.
+/// </p>
+/// <br><br>
+/// <p class="${@state} inm-message--dismissible">
+///  This is a dismissible ${@state} message.
+///  <a class="inm-button--link inm-message__dismiss">Close<svg class="inm-icon" aria-hidden="true"><use xlink:href="#inm-icon__close" /></svg></a>
+/// </p>
+///
+.c-message
+  ///# @state {inm-message} horizontally spaces child items out, filling the full width of the container
+  mixin_message(apply_simplified_bem: true)
+
+  ///# @state {inm-message--danger}
+  &--danger
+    mixin_message--danger()
+
+  ///# @state {inm-message--warning}
+  &--warning
+    mixin_message--warning()
+
+  ///# @state {inm-message--success}
+  &--success
+    mixin_message--success()
+
+  ///# @state {inm-message--inline}
+  &--inline
+    mixin_message--inline()
+  
+  // note: not necessary to add as a state, as it appears in each code example already
+  &--dismissible
+    mixin_message--dismissible()

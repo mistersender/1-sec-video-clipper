@@ -1,0 +1,28 @@
+////
+/// @author Jessica Kennedy
+/// @page elements/components
+////
+
+/// @name Currency
+/// @description
+/// A simple component for displaying currency uniformly
+///
+/// @markup {html}
+/// <span class="${@state}">$523.09<span>
+
+///# @state {inm-currency}
+.c-currency
+  +simplified_bem()
+    text-align: right
+    display: inline-block
+    padding: 0.1em 0.8em
+    border-radius: 1.6em
+  
+  ///# @state {inm-currency--positive}
+  &--positive
+    color: get-color("white")
+    background: get-color("money")
+  
+  ///# @state {inm-currency--negative}
+  &--negative
+    color: get-color("danger", 2)

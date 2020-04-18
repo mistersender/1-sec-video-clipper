@@ -1,0 +1,45 @@
+html, body, font
+  color: get-color('text')
+  font-family: site.font.family.normal
+  font-weight: site.font.weight.normal
+  font-size: 16px
+  line-height: 1.4em
+  -ms-touch-action: none
+  -ms-touch-select: none
+  overflow-x: hidden
+  position: relative
+  -webkit-tap-highlight-color: transparent
+  -webkit-text-size-adjust: 100%
+  -webkit-touch-callout: none
+  background get-color('background')
+
+html
+  font-size: 10px // override so that our rem is an even number
+  -ms-overflow-style: -ms-autohiding-scrollbar // forces scrollbars to not always appear in IE
+
+*
+  transition padding .2s ease-out
+
+*, *:before, *:after
+  box-sizing: border-box
+
+p
+  padding 1em 0
+
+ul
+  list-style-type: disc;
+  list-style-position: inside;
+
+ol
+  list-style-type: decimal;
+  list-style-position: inside;
+
+ul ul, ol ul
+  list-style-type: circle;
+  list-style-position: inside;
+  margin-left: 1rem
+
+ol ol, ul ol
+  list-style-type: lower-latin;
+  list-style-position: inside;
+  margin-left: 1rem;

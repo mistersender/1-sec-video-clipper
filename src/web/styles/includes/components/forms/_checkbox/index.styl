@@ -1,0 +1,61 @@
+////
+/// @author Jessica Kennedy
+/// @page elements/forms
+////
+
+/// @name Checkbox
+/// @description
+/// Most of the accessibility enhancements have been handled for you other than labelling a group of inputs, and defining a label. For correct accessibility, (and when necessary) be sure to add a label for the checkbox group with a custom id, and associate that id using `aria-labelledby="yourcustomid"`.
+///
+/// @markup {html}
+/// <div id="test__checkbox-label__{{custom_iterator}}" class="inm-label">Sample Checkboxes</div>
+/// <div role="group" aria-labelledby="test__checkbox-label__{{custom_iterator}}">
+///   <label class="${@state}">
+///     <input checked name="test__checkbox__{{custom_iterator}}" type="checkbox" class="inm-checkbox__field">
+///     A Sample Checkbox (defaulted to checked)
+///   </label>
+///   <label class="${@state}">
+///     <input name="test__checkbox__{{custom_iterator}}" type="checkbox" class="inm-checkbox__field">
+///     A Sample Checkbox
+///   </label>
+///   <label class="${@state}">
+///     <input name="test__checkbox__{{custom_iterator}}" disabled type="checkbox" class="inm-checkbox__field">
+///     disabled checkbox
+///   </label>
+///   <label class="${@state}">
+///     <input name="test__checkbox__{{custom_iterator}}" checked disabled type="checkbox" class="inm-checkbox__field">
+///     disabled (checked) checkbox
+///   </label>
+///   <label class="${@state}">
+///     <input name="test__checkbox__{{custom_iterator}}" type="checkbox" class="inm-checkbox__field">
+///     <div class="inm-checkbox__label">
+///       This checkbox has a lot of content
+///       <br>
+///       In the label to demonstrate multiline
+///       <br>
+///       functionality
+///     </div>
+///   </label>
+/// </div>
+@require './_mixin.styl'
+
+///# @state {inm-checkbox}
+.c-checkbox
+  //Includes &__field and &__label
+  mixin_checkbox(apply_simplified_bem: true)
+
+  ///# @state {inm-checkbox--inline}
+  &--inline
+    mixin_checkbox--inline()
+
+  ///# @state {inm-checkbox--top} top-align checkbox with content (instead of vertically centered)
+  &--top
+    mixin_checkbox--top()
+
+  ///# @state {inm-checkbox--table} used exclusively inside of tables, see table for more
+  &--table
+    mixin_checkbox--table()
+
+  ///# @state {inm-checkbox--only} checkbox, all by itself
+  &--only
+    mixin_checkbox--only()

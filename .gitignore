@@ -1,0 +1,11 @@
+/node_modules/
+/dist/
+.DS_Store
+npm-debug.log
+
+.size-snapshot.json
+
+/srcVideo/*
+/srcVideoScreenshot/*
+/1-sec-originals/*
+/destVideo/*

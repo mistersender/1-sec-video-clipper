@@ -1,0 +1,92 @@
+////
+/// @author Jessica Kennedy
+/// @page elements/inline
+/// @name Inline
+////
+
+/// @name Code/Pre
+/// @description
+/// For inline code, use the `<code>` tag. For blocks of code, use `<pre>`.
+/// We strongly recommend using [highlight.js](https://highlightjs.org) to handle code highlighting.
+/// The styleguide contains some simple styles for using highlight js easily in projects.
+///
+/// @markup {html}
+/// <!-- include highlight.js -->
+/// <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+/// 
+/// <!-- include standalone highlight js css (v3+) -->
+/// <link rel="stylesheet" href="https://b2c-lic-static.development.dev.ebt.inmar.com/b2c-lic/b2c-lic-theme/0/hljs.min.css">
+/// <pre><code class="hljs javascript">
+///   // your code here
+///   document.getElementById("yaySoCool")
+/// </code></pre>
+/// <br>
+/// <pre class="pre--lite"><code class="hljs--lite javascript">
+///   // lite themed
+///   document.getElementById("yaySoCool")
+/// </code></pre>
+/// <br>
+/// <p>Some inline code snippet <code class="hljs--inline javascript">document.getElementById("yaySoCool")</code></p>
+/// <p>Lite theme inline code snippet <code class="hljs--lite hljs--inline javascript">document.getElementById("yaySoCool")</code></p>
+code, pre
+  padding .2em
+  color get-color('tertiary', -5)
+  background get-color('tertiary', 5)
+  border-radius: site.border.radius
+
+pre
+  padding .5em
+
+.pre--lite
+  background: get-color("tertiary", -6)
+  color: get-color("text")
+
+/// @name Displaying Emphasis
+/// @description
+/// Emphasis should be added with care. `b` Tags should be used for display purposes only,
+/// while `strong` tags convey emphasis as well as having bold styling. Keep accessibility in mind!
+///
+/// @markup {html}
+/// <b>Text that appears bold, but does not convey emphasis.</b>
+/// <strong>Text that should be emphasized when reading should use a strong tag.</strong>
+b, strong
+  font-weight: site.font.weight.heavy
+  color get-color('emphasized_text')
+
+
+/// @name Anchor Tag
+/// @description
+/// Simple anchor tags. By default, anchor styles apply to any `a` elements without a `class` attribute.
+/// To apply anchor styles to an element regardless of the type (even anchor elements with a class), use the `inm-anchor` class.
+///
+/// @markup {html}
+/// <a href="#">This is an anchor tag.</a>
+/// <a href="#f" class="someclass ${@state}">This is an anchor tag with other classes.</a>
+///# @state {inm-anchor}
+a:not([class]), .c-anchor
+  color: get-color("primary", 1)
+  transform scale(1)
+  transition all .2s ease-out
+  display: inline-block
+
+  &:hover
+    color get-color("primary", 2)
+  &:active
+    color get-color("primary", 3)
+    transform scale(.97)
+  &:visited
+    color get-color("primary", 4)
+
+input 
+  height 1.6rem
+
+///# @state {inm-anchor--hidden} Used primarily for allowing for in-page anchor points
+.c-anchor--hidden
+  width: 1px
+  height: 1px
+  opacity: 0
+  overflow: hidden
+  position: relative
+  top: -1px
+  left: -1px
+  float left

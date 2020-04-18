@@ -1,0 +1,80 @@
+@require './_headline'
+////
+/// @author Jessica Kennedy
+/// @page elements/components
+////
+
+/// @name Actions
+/// @description
+/// This component should be used to contain the _primary_ actions for a page. Typically, these will appear at the bottom of a page.  As such,
+/// the default styles are set to go full width
+///
+/// @markup {html}
+/// <!-- simple -->
+/// <section class='${@state}'>
+///   <button class="inm-button--action">Primary Action</button>
+///   <button class="inm-button">Secondary Action</button>
+/// </section>
+///
+/// <!-- complex -->
+/// <section class='${@state}'>
+///   <button class="inm-button--action">Primary Action</button>
+///   <button class="inm-button">Secondary Action</button>
+///   <div class="inm-actions__info">
+///     <a href="#" class="inm-button--link inm-actions__link">More Info</a>
+///   </div>
+/// </section>
+.c-actions
+
+  ///# @state {inm-actions}
+  +simplified_bem()
+    display flex
+    justify-content: flex-start
+    flex-flow: row wrap
+    position: relative
+    align-items: center
+    pad('vertical')
+    margin-top: site.spacing.sm
+    
+    @media (min-width: 568px)
+      margin-top: site.spacing.md
+      flex-flow: row nowrap;
+
+    > *
+      width: 100%;
+      justify-content: center;
+      
+      @media (min-width: 568px)
+        width: auto;
+    
+    > * + *
+      margin-top: site.spacing.sm;
+      
+      @media (min-width: 568px)
+        margin-top: 0
+        margin-left: site.spacing.md
+
+  ///# @state {inm-actions--confirmation} used mostly in display of confirm boxes, where the confirm is typically on the right, and the cancel on left
+  &--confirmation
+    flex-direction: row-reverse
+    padding: 0
+    
+    > * + *
+      @media (min-width: 568px)
+        margin-left: 0
+        margin-right: site.spacing.md
+
+  &__info
+    flex 1 1 auto // must specify "auto" for ie11 compatability
+    display flex
+    align-items center
+    
+    @media (min-width: 568px)
+      justify-content: flex-end
+
+      ~/--confirmation &
+        justify-content: flex-start
+
+  &__link
+    align-self: flex-end
+    background transparent

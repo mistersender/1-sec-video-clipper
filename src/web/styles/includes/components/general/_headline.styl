@@ -1,0 +1,124 @@
+@require '../forms/_button' // require this so that we are able to override it correctly below (otherwise it appears lower in the generated css)
+
+// break this out into a mixin so we can use it in tabs contextually as well
+headline_modifiers()
+  &--plain
+    box-shadow none
+    margin 0
+    &:after
+      display: none
+
+  &--reset
+    margin-top 0
+    padding-top 0.5em // same as padding bottom
+
+////
+/// @author Jessica Kennedy
+/// @page elements/components
+////
+
+/// @name Headline
+/// @description
+/// Displays a headline with optional actions to the right. Actions should:
+///
+/// * If there are only 1 or 2 actions available, display them horizontally.
+/// * If there are 3 or more actions available, collapse them into an "Options" menu using the junk drawer.
+/// * Certain important actions may be promoted outside of the menu at the developer's discretion.
+/// * Given that a particular action cannot be applied to multiple items, when multiple items are selected to act upon, the action is disabled. 
+///
+///
+/// @markup {html}
+/// <h2 class='${@state}'>
+///   This is a simple headline
+/// </h2>
+///
+/// @markup {html} [window_styles=height: 240px;]
+/// <header class='inm-headline'>
+///   <h2 class="inm-headline__title">This is a complex headline</h2>
+///   <div class="inm-headline__actions">
+///     <section class="inm-junk-drawer">
+///       <div class="inm-junk-drawer__title">More Options</div>
+///       <div class="inm-junk-drawer__options">
+///         <a class="inm-junk-drawer__option">Save <svg class="inm-icon inm-junk-drawer__option-icon" aria-hidden="true"><use xlink:href="#inm-icon__save" /></svg></a>
+///         <div class="inm-junk-drawer__option--disabled">Delete <svg class="inm-icon inm-junk-drawer__option-icon" aria-hidden="true"><use xlink:href="#inm-icon__trash" /></svg></div>
+///         <div class="inm-junk-drawer__option">Retry <svg class="inm-icon inm-junk-drawer__option-icon" aria-hidden="true"><use xlink:href="#inm-icon__refresh" /></svg></div>
+///       </div>
+///     </section>
+///     <a class="inm-button--link inm-headline__button">Close<svg class="inm-icon inm-button__icon-right" aria-hidden="true"><use xlink:href="#inm-icon__close" /></svg></a>
+///   </div>
+/// </header>
+.c-headline
+  ///# @state {inm-headline}
+  +simplified_bem()
+    align-items center
+    box-shadow: 0 -0.2rem 0 0 get-color('secondary') inset
+    display flex
+    flex-flow row nowrap
+    justify-content space-between
+    margin 0.8em 0
+    padding 1em 0 0.5em
+    line-height 1em
+    position: relative
+    
+    &:after
+      content: ""
+      box-shadow: 0 -0.2rem 0 0 get-color("secondary") inset
+      display: block
+      width: s("calc(100% + %s)", site.spacing.sm + site.spacing.sm)
+      position: absolute
+      bottom: 0
+      left: s("-%s", site.spacing.sm)
+      height: 0.2rem
+      z-index 0
+
+      @media (min-width: 568px)
+        width: s("calc(100% + %s)", site.spacing.md + site.spacing.md)
+        left: s("-%s", site.spacing.md)
+
+      @media (min-width: 850px)
+        width: s("calc(100% + %s)", site.spacing.lg + site.spacing.lg)
+        left: s("-%s", site.spacing.lg)
+
+  ///# @state {inm-headline--plain} Simplest possible styling of headline
+  ///# @state {inm-headline--reset} Headline without top padding
+  headline_modifiers()
+
+  &__title
+    +simplified_bem()
+      margin 0
+      flex 0 0 auto // must specify "auto" for ie11 compatability
+      line-height 1em
+      title()
+      white-space nowrap
+
+    ///# @state {inm-headline--page-title} Page Head title bar only.
+    ///# @markup {html}
+    ///# <header class='inm-headline--page-title'>
+    ///#   <h2 class="inm-headline__title">This headline is for page titles</h2>
+    ///#   <div class="inm-headline__actions">
+    ///#     <button class="inm-button--link inm-headline__button">Save<svg class="inm-icon inm-button__icon-right" aria-hidden="true"><use xlink:href="#inm-icon__save" /></svg></button>
+    ///#     <a class="inm-button--link inm-headline__button">Close<svg class="inm-icon inm-button__icon-right" aria-hidden="true"><use xlink:href="#inm-icon__close" /></svg></a>
+    ///#   </div>
+    ///# </header>
+    ~/--page-title &
+      font-size: 2.4rem
+
+  &__actions
+    +simplified_bem()
+      flex 1 1 auto // must specify "auto" for ie11 compatability
+      display flex
+      justify-content flex-end
+      font-size: 1.4rem
+      /~ + &
+        margin-left: site.spacing.sm
+
+  &__button
+    padding-top 0 // top/bottom padding removed so button flexes without adding vertical space
+    padding-bottom 0
+    background transparent // this allows the bottom border on tabs esp. to show through
+    cursor pointer
+
+    // add an override for the icon in headlines because their self-alignment does not work well with the headlines.
+    .c-icon
+      align-self center
+      top 0

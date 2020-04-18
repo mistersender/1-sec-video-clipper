@@ -1,0 +1,42 @@
+////
+/// @author Jessica Kennedy
+/// @page elements/forms
+/// @arg order [1]
+////
+/// @name Button
+/// @description
+/// Buttons should be used to delineate action, either as a primary action (the "action" button state), meaning an action
+/// that is required for the page to work; or secondary action (the "default" state), meaning any action that is optional to the user.  Buttons should not be selected for use simply because they "look better" in a specific context, their color and style are intended to subtly convey meaning to the end user. Please refer to each button's state for better details on use cases.
+///
+/// Buttons can be used by themselves, or with an `inm-actions` component to simplify the placement of the buttons in any particular layout. As a general rule, the most important "primary" action button in a given context should appear at the farthest right of the screen. For better detail and examples, see the inm-actions component.
+///
+/// Know your button types:
+/// * Default Buttons: `<button>` - The default state of a button, which has no actual connotations when a user interaction occurrs with it. Use javascript to create action on these buttons
+/// * Submit buttons: `<button type="submit">` - These buttons, when contained within a form will do two things-- first, touching/clicking the button will initialize a form submission. Second, the mere _presence_ of this button in a form element will allow the user to press "enter" on their keyboard at any given moment to submit the form.
+/// * Non-button elements: Most any other element can have the `inm-button` classes added to them to create an element that appears to work like a button. This option should be used sparingly (except, perhaps when used with anchor tags), as extra effort will be required to make these elements tabbable and focusable for AA accessibility compliance.
+///
+/// @markup {html}
+/// <button class="${@state}">Sample Button</button>
+/// <button class="${@state}" disabled="true">Disabled Button</button>
+/// <a class="${@state}"><svg class="inm-icon inm-button__icon-left" aria-hidden="true"><use xlink:href="#inm-icon__save" /></svg>Icon Button</a>
+/// <button class="${@state}">Icon Button <svg class="inm-icon inm-button__icon-right" aria-hidden="true"><use xlink:href="#inm-icon__save" /></svg></button>
+@require './_mixin.styl'
+
+.c-button
+  //Base layout styles for buttons. Includes support for __icon-left and __icon-right.
+  mixin_button(apply_simplified_bem: true)
+
+  ///# @state {inm-button} - The default button, used to delineate actions which are **not** the primary or required action on the page. For example, a "cancel" button, or a "reset" button.
+  mixin_button--default()
+
+  ///# @state {inm-button--action} - The "Primary Action" button, intended to delineate the **required** or **primary** action on the page or focused area at any given time. For example a "Submit" button or a "Save" button. As a rule of thumb, there should only be one primary action in a given context at any time.
+  &--action
+    mixin_button--action()
+
+  ///# @state {inm-button--danger} - Button which is used to represent actions that will invoke possibly non-reversible actions like "Delete Entry" or "Cancel Order"
+  &--danger
+    mixin_button--danger()
+
+  ///# @state {inm-button--link} - Link buttons are used for actions that are **purely optional**, and therefore we want to give less weight to on the page. They may also be **used in place of actual links** (although they may be applied to anchor tags) in order to simplify the styling of links or increase the touch area conveniently.
+  &--link
+    mixin_button--link()

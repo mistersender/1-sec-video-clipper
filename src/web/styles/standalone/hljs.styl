@@ -1,0 +1,113 @@
+/*!
+ * Original theme was:
+ * Agate by Taufik Nurrohman <https://github.com/tovic>
+ * ----------------------------------------------------
+ */
+
+@require '../helpers'
+
+.hljs
+  +simplified_bem()
+    display: block;
+    overflow-x: auto;
+    padding: 0.5em;
+    background: get-color('tertiary', 5)
+    color: get-color("white")
+
+  &--lite
+    background: get-color("secondary", -6)
+    color: get-color("text")
+  
+  &--inline
+    display: inline !important
+    padding: 0.1em
+
+
+.hljs-name, .hljs-strong
+  font-weight: site.font.weight.heavy
+
+.hljs-code, .hljs-emphasis
+  font-style: italic
+
+.hljs-tag
+  color: get-color('secondary')
+
+.hljs-variable, .hljs-template-variable, .hljs-selector-id, .hljs-selector-class
+  color: get-color('secondary', -5)
+
+.hljs-string, .hljs-bullet
+  color: get-color("quaternary", -4)
+
+.hljs-type, .hljs-title, .hljs-section, .hljs-attribute, .hljs-quote, .hljs-built_in, .hljs-builtin-name
+  color: get-color('warning', -3)
+
+.hljs-number, .hljs-symbol, .hljs-bullet
+  color: get-color("danger", -2)
+
+.hljs-keyword, .hljs-selector-tag, .hljs-literal
+  color: get-color("warning")
+
+.hljs-comment, .hljs-deletion, .hljs-code
+  color: get-color("gray", -3)
+
+.hljs-regexp, .hljs-link
+  color: get-color('tertiary', -5)
+
+.hljs-meta
+  color: get-color("danger", -1)
+
+.hljs-deletion
+  background-color: get-color("danger", -1)
+  color: get-color("gray", 3)
+
+.hljs-addition
+  background-color: get-color('quaternary', -1)
+  color: get-color("gray", 3)
+
+.hljs a
+  color: inherit
+
+.hljs a:focus, .hljs a:hover
+  color: inherit;
+  text-decoration: underline
+
+
+
+.hljs--lite
+  .hljs-tag
+    color: get-color('secondary', 3)
+
+  .hljs-variable, .hljs-template-variable, .hljs-selector-id, .hljs-selector-class
+    color: get-color('secondary', 3)
+
+  .hljs-string, .hljs-bullet
+    color: get-color("quaternary", 1)
+
+  .hljs-type, .hljs-title, .hljs-section, .hljs-attribute, .hljs-quote, .hljs-built_in, .hljs-builtin-name
+    color: get-color('warning', 1)
+
+  .hljs-number, .hljs-symbol, .hljs-bullet
+    color: get-color("danger", 1)
+
+  .hljs-keyword, .hljs-selector-tag, .hljs-literal
+    color: get-color("warning", 1)
+
+  .hljs-comment, .hljs-deletion, .hljs-code
+    color: get-color("success", 1)
+
+  .hljs-regexp, .hljs-link
+    color: get-color('tertiary_text')
+
+  .hljs-meta
+    color: get-color("danger", 1)
+
+  .hljs-deletion
+    background-color: get-color("danger", 1)
+    color: get-color("gray", 5)
+
+  .hljs-addition
+    background-color: get-color('success', -1)
+    color: get-color("gray", 3)
+
+pre code
+  white-space: pre

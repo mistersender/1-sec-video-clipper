@@ -1,0 +1,7 @@
+// adds consistent emphasis to elements that require it.
+// supports extending, meaning emphasis styles can be added in
+// to the existing selector, or the selector can be added to a list of emphasized selectors.
+emphasize(normal_fontweight = false)
+  color get-color('emphasized_text')
+  font-weight (normal_fontweight ? 400 : 700)
+  font-family: site.font.family.emphasized

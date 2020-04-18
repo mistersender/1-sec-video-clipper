@@ -1,0 +1,125 @@
+@require './_headline'
+
+////
+/// @author Jessica Kennedy
+/// @page elements/components
+////
+
+/// @name Tabs
+/// @description
+/// Tabs are used to move between related data.
+///
+/// @markup {html}
+/// <div class='${@state}'>
+///   <div class='inm-tabs__tab' tabindex="0">Tab A</div>
+///   <div class='inm-tabs__tab--active' tabindex="0">Tab B</div>
+///   <div class='inm-tabs__tab' tabindex="0">Tab C</div>
+///   <div class='inm-tabs__tab' tabindex="0">Tab D</div>
+///   <div class='inm-tabs__actions'>
+///     <button class="inm-button--link inm-tabs__button">Save<svg class="inm-icon inm-button__icon-right" aria-hidden="true"><use xlink:href="#inm-icon__save" /></svg></button>
+///     <a class="inm-button--link inm-tabs__button">Close<svg class="inm-icon inm-button__icon-right" aria-hidden="true"><use xlink:href="#inm-icon__close" /></svg></a>
+///   </div>
+/// </div>
+.c-tabs
+  ///# @state {inm-tabs}
+  +simplified_bem()
+    display: flex
+    title()
+    flex-flow: row nowrap
+    justify-content: flex-start
+    align-items: center;
+    font-size: 1.8rem
+    box-shadow: 0 -0.1rem 0 0 get-color('primary') inset, 0 0.2rem 0 0 get-color('primary')
+    height: 5.4rem
+    line-height: @height
+    padding: 0 site.spacing.sm
+    detect_node_insertion()
+    * + *
+      margin-left: site.spacing.sm
+
+  ///# @state {inm-tabs--plain} Tabs without bottom border or margins
+  ///# @state {inm-tabs--reset} Tabs without top padding
+  ///# @state {inm-tabs--full-width} Tabs where each tab stretches to fit the full size
+  headline_modifiers()
+
+  &__tab
+    +simplified_bem()
+      padding: 0 site.spacing.md
+      transition: all .2s ease-in
+      cursor pointer
+      color: get-color('primary')
+      text-decoration: none
+      display: flex
+      align-items: center
+      align-self: stretch
+      white-space: nowrap
+      font-size: 2rem
+      font-weight: site.font.weight.medium
+      line-height: 1.25em // this should match the size of the inm-headline--page-header
+      position relative
+      border-radius: 3px 3px 0 0
+      border: 0.1rem solid transparent
+
+      ~/--full-width &
+        flex: 1 0 auto
+        justify-content: center
+
+      @media(min-width: 568px)
+        padding: 0 site.spacing.lg
+
+    &:hover
+      background-color: get-color("primary", -8)
+      // color: get-color('white')
+      border-color: get-color('primary', -4)
+      border-bottom-color: get-color("primary")
+      // box-shadow: 0 -.2em 0 0 get-color('quaternary') inset
+      // opacity 1
+
+    &--active
+      background-color: get-color("primary")
+      color: get-color('white')
+      border-color: get-color('primary')
+
+      &:hover
+        background-color: get-color("primary")
+        color: get-color('white')
+
+    &:active, &:focus, &--active:focus, &--active:active
+      // box-shadow: 0 -.3em 0 0 get-color('quaternary', 2) inset
+      // background-color: get-color("primary", 2)
+      outline: none
+      border-color: get-color('primary', -4)
+      border-bottom-color: get-color("primary")
+      // opacity 1
+
+
+  &__actions
+    @extends .c-headline__actions
+
+  &__button
+    @extends .c-headline__button
+
+/// @name Tabs Item
+/// @description
+/// Tabs Items are used to denote an content to be displayed for a particular tab. Not surprisingly, it is tightly coupled with `tabs`
+///
+/// @markup {html}
+/// <div class='${@state}'>
+///   <p>This is some content in a tab</p>
+/// </div>
+.c-tab-content
+  ///# @state {inm-tab-content}
+  +simplified_bem()
+    height 0
+    overflow: hidden
+    opacity 0
+    transition height .2s ease-out, opacity .2s ease-out
+    visibility: hidden // this is for accessibility (visiblity hidden prevents keyboard traps)
+
+  ///# @state {inm-tab-content--active}
+  &--active
+    display block
+    overflow: visible
+    height: auto;
+    opacity 1
+    visibility: visible

@@ -1,0 +1,217 @@
+@require './forms/_checkbox'
+////
+/// @author Jessica Kennedy
+/// @page elements/components
+////
+
+/// @name Table
+/// @description
+/// Tables should be used to display tabular data, but may also be used for displaying lists with complex information,
+/// such as client information for selection and action (as seen in the example below)
+///
+/// Generally, actions should:
+/// * If there are only 1 or 2 actions available, display them horizontally.
+/// * If there are 3 or more actions available, collapse them into an "Options" menu using the junk drawer.
+/// * Certain important actions may be promoted outside of the menu at the developer's discretion.
+/// * Given that a particular action cannot be applied to multiple items, when multiple items are selected to act upon, the action is disabled. 
+///
+/// Sorting of ascending and descending can be toggled by switching between the `inm-table__sortable` & `inm-table__sortable--desc` classes.
+/// The column that is currently being used to sort the table can be emphasized by adding the `inm-is-active` class.
+///
+/// **Note:** The "Check All" is an html-only example, js will need to be added by developers to actually check/uncheck boxes depending on framework.
+///
+/// @markup {html}
+/// <!-- optional header with actions to perform on the selected table items -->
+/// <header class='inm-headline'>
+///   <h3 class="inm-headline__title">Table Selection</h3>
+///   <div class="inm-headline__actions">
+///     <section class="inm-junk-drawer">
+///       <div class="inm-junk-drawer__title">More Options</div>
+///       <div class="inm-junk-drawer__options">
+///         <a class="inm-junk-drawer__option">Save <svg class="inm-icon inm-junk-drawer__option-icon" aria-hidden="true"><use xlink:href="#inm-icon__save" /></svg></a>
+///         <div class="inm-junk-drawer__option--disabled">Delete <svg class="inm-icon inm-junk-drawer__option-icon" aria-hidden="true"><use xlink:href="#inm-icon__collapse" /></svg></div>
+///       </div>
+///     </section>
+///     <a class="inm-button--link inm-headline__button">Retry<svg class="inm-icon inm-junk-drawer__option-icon" aria-hidden="true"><use xlink:href="#inm-icon__refresh" /></svg></a>
+///   </div>
+/// </header>
+///
+/// <table class='${@state}'>
+///  <thead>
+///    <tr>
+///      <th class="inm-table__data--selector">
+///        <label class="inm-checkbox--only">
+///          <!-- TODO: Developers will need to add the actual functionality of this checkbox using their desired framework -->
+///          <input name="test__checkbox__{{custom_iterator}}" type="checkbox" class="inm-checkbox__field" aria-label="check-all">
+///        </label>
+///      </th>
+///      <th>User</th>
+///      <th class="inm-table__sortable--desc inm-hideable--sm" tabindex="0" aria-label="sort by email">Email</th>
+///      <th class="inm-table__sortable inm-is-active" tabindex="0"  aria-label="sort by active">Active?</th>
+///    </tr>
+///  </thead>
+///  <tbody>
+///    <tr class="inm-table__selectable-row">
+///      <td>
+///        <label class="inm-checkbox--table js-inm-selectable-table-row">
+///          <input name="test__checkbox__{{custom_iterator}}" type="checkbox" class="inm-checkbox__field">
+///        </label>
+///      </td>
+///      <td>George Bluth, Sr.</td>
+///      <td class="inm-hideable--sm">always_leave_a_note@gmail.com</td>
+///      <td>Yes</td>
+///    </tr>
+///    <tr class="inm-table__selectable-row">
+///      <td>
+///        <label class="inm-checkbox--table js-inm-selectable-table-row">
+///          <input name="test__checkbox__{{custom_iterator}}" type="checkbox" class="inm-checkbox__field">
+///        </label>
+///      </td>
+///      <td>Gob Bluth</td>
+///      <td class="inm-hideable--sm">magicians_alliance@gmail.com</td>
+///      <td>No</td>
+///    </tr>
+///    <tr class="inm-table__selectable-row">
+///      <td>&nbsp;</td>
+///      <td>Tobias Funke</td>
+///      <td class="inm-table__hideable--sm">the_actor@gmail.com</td>
+///      <td>No</td>
+///    </tr>
+///    <tr>
+///      <td>&nbsp;</td>
+///      <td>George Michael Bluth</td>
+///      <td class="inm-hideable--sm">mister_manager@gmail.com</td>
+///      <td>Yes</td>
+///    </tr>
+///    <tr>
+///      <td>&nbsp;</td>
+///      <!-- no-overflow will only be effective if a max-width is also set on element -->
+///      <!-- DO NOT DO INLINE! The below is for example purposes ONLY -->
+///      <td class="inm-table__data--no-overflow" style="max-width: 80px">excessively long content is able to overflow using an override class</td>
+///      <td>beads_or_bees@gmail.com</td>
+///      <td>No</td>
+///    </tr>
+///   </tbody>
+/// </table>
+
+.c-table
+
+  ///# @state {inm-table}
+  +simplified_bem()
+    background transparent
+    width: 100%
+
+    tr
+      border-bottom 0.1rem solid get-color('border')
+      background get-color('white')
+      transition all 0.2s ease-out
+
+    th
+      text-align left
+      emphasize()
+      background get-color('white')
+      padding: site.spacing.sm
+      vertical-align middle
+      height 4rem
+      border-bottom 0.2rem solid get-color('border')
+    td
+      padding: site.spacing.sm
+      vertical-align middle
+      height 4rem
+  
+    tr:nth-child(even)
+      background-color: get-color('primary', -6)
+  
+  &__selectable-row
+    td
+      position relative
+      z-index 1
+      min-height 4rem
+
+      // almost all of these styles reflect the `hoverable()` mixin, but are applied using the
+      // border ONLY due to restraints around using tables. (tables only allow valid pseudo elements inside of TDs, so we
+      // have to emulate an entire row hover via each td's pseudo element)
+      &:after
+        content: ""
+        transition: all site.form.transition ease-out
+        border 0.1rem solid currentColor
+        border-left-width 0
+        border-right-width 0
+        background: transparent
+        color transparent
+        display: block
+        position: absolute
+        top 0.2rem 
+        bottom 0.2rem
+        left 0
+        right 0
+        z-index -1
+      &:first-of-type:after
+        border-radius: site.border.radius 0 0 site.border.radius
+        border-left-width 0.1rem
+      &:last-of-type:after
+        border-radius: 0 site.border.radius site.border.radius 0 
+        border-right-width 0.1rem
+  
+    &:hover, &:focus
+      outline none
+      cursor: pointer
+      td:after
+        color: get-color('primary', -4)
+        background get-color('primary', -5)
+    
+    &:active
+      td:after
+        background get-color('primary', -4)
+        border-color get-color('primary', -2)
+        border-width 0.2rem 0
+      td:first-of-type:after
+        border-left-width 0.2rem
+      td:last-of-type:after
+        border-right-width 0.2rem
+    &.c-is-selected
+      background-color get-color('highlight') !important // this allows us to not break ITCSS since we've done some specialness with selectors for tables anyway... sigh
+
+  &__sortable
+    +simplified_bem()
+      th&
+        position relative
+        padding-right: site.spacing.sm
+        cursor pointer
+        // box-shadow: 0 0 0 -0.1rem transparent inset
+        transition all .2s ease-out
+        hoverable()
+        border-bottom: 0.2rem solid get-color('border')
+
+        &:after
+          content: ""
+          border-left: .5em solid transparent;
+          border-right: .5em solid transparent;
+          border-bottom: .5em solid currentColor;
+          font-size: .7em
+          top: calc(50% - 1em)
+          transform: rotate(0)
+          display inline-block
+          position relative
+          margin-left: .8em
+          transition all .2s ease-out
+        &.c-is-active
+          background-color: get-color('highlight')
+          border: 0.1rem solid get-color('highlight', 1)
+          border-bottom: 0.2rem solid get-color('border')
+
+    &--desc
+      th&:after
+        transform: rotate(180deg)
+
+  &__data
+    &--no-overflow
+      text-overflow: ellipsis
+      overflow: hidden
+      white-space: nowrap
+    
+    &--selector
+      max-width: 1.5em
+
+.js-inm-selectable-table-row
+  detect_node_insertion()

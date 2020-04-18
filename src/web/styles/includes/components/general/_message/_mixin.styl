@@ -1,0 +1,55 @@
+mixin_message(apply_simplified_bem = false)
+  +conditional_simplified_bem(apply_simplified_bem)
+    display: flex
+    flex-flow: row nowrap
+    justify-content: flex-start
+    align-items: stretch
+    color: get-color('text')
+    background: get-color("white")
+    padding: 1em
+    font-weight: bold
+    display: inline-block; // should make the width variable
+    border-radius: site.border.radius
+    border: 0.1rem solid get-color("info")
+    border-width: 0.4rem 0.1rem 0.1rem
+    float-up(2)
+    position: relative;
+  
+  &__dismiss
+    position: absolute
+    top: site.spacing.sm
+    right: site.spacing.sm
+    width: 1.2em;
+    height: 1.2em;
+    text-indent: -2.9em;
+    padding: 0
+    line-height: 1.2em;
+    overflow: hidden;
+
+mixin_message--danger()
+  add-icon('danger', get-color("danger"))
+  border-color: get-color('danger')
+  background-position: 1em 1em // we have to explicity specify both (even though they are the same) because of an ie11 quirk
+  background-size: 1.5em 1.5em // we have to explicity specify both (even though they are the same) because of an ie11 quirk
+  padding-left: 3em
+
+mixin_message--warning()
+  add-icon('warning', get-color("warning"))
+  border-color: get-color('warning')
+  background-position: 1em 1em // we have to explicity specify both (even though they are the same) because of an ie11 quirk
+  background-size: 1.5em 1.5em // we have to explicity specify both (even though they are the same) because of an ie11 quirk
+  padding-left: 3em
+
+mixin_message--success()
+  add-icon('success', get-color("success"))
+  border-color: get-color('success')
+  background-position: 1em 1em // we have to explicity specify both (even though they are the same) because of an ie11 quirk
+  background-size: 1.5em 1.5em // we have to explicity specify both (even though they are the same) because of an ie11 quirk
+  padding-left: 3em
+
+mixin_message--dismissible()
+  padding-right: 3em
+
+mixin_message--inline()
+  box-shadow: none
+  display: block;

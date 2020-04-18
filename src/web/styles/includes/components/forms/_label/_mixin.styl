@@ -1,0 +1,29 @@
+mixin_label(apply_simplified_bem = false)
+  +conditional_simplified_bem(apply_simplified_bem)
+    font-family: site.font.family.input
+    display flex
+    font-size 1.8rem
+    cursor pointer
+    padding: 0.2em 0 0.4em
+  
+  &__title
+    flex: 1 1 auto
+    white-space: none
+    ~/--required &::after
+      content: '*'
+      color: get-color('secondary')
+      padding-left 0.4em
+  
+  &__helper
+    align-self: flex-end
+
+
+mixin_label--required()
+  &::after
+    content: '*'
+    color: get-color('secondary')
+    padding-left 0.4em
+
+mixin_label--with-helper()
+  &::after
+    display: none

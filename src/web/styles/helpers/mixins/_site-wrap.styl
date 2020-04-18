@@ -1,0 +1,20 @@
+
+
+// adds consistent site-wrappers
+site-wrap(via...)
+    _wrap = site.border.wrapper
+  
+    if(length(via))
+        for direction in via
+            border-{direction}: (_wrap/3) solid get-color('background')
+
+            @media (min-width: 568px)
+                border-{direction}: (_wrap/2) solid get-color('background')
+
+            @media (min-width: 760px)
+                border-{direction}: _wrap solid get-color('background')
+    else
+        site-wrap('left', 'right')
+
+
+  

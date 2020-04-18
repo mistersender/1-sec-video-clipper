@@ -1,0 +1,38 @@
+////
+/// @author Jessica Kennedy
+/// @page elements/forms
+////
+
+/// @name Label
+/// @description
+/// A simple form label.  Remember, inputs that are required should contain the `aria-required="true"` attribute along with the required label.
+///
+/// @markup {html}
+/// <!-- "inm-spaced--vertical" adds some nice spacing to our form & labels -->
+/// <div class="inm-spaced--vertical">
+///   <label for="inp1__{{custom_iterator}}" class="${@state}">Example Label</label>
+///   <!-- input is for example only. -->
+///   <input name="testInput" type="text" class="inm-input" id="inp1__{{custom_iterator}}" aria-required="true">
+///
+///   <!-- label with a helper -->
+///   <div class="${@state} inm-label--with-helper">
+///     <label for="inp2__{{custom_iterator}}" class="inm-label__title">Fancy Label</label>
+///     <div class="inm-label__helper">
+///       <a href="#">What's this?</a>
+///     </div>
+///   </div>
+///   <!-- input is for example only. -->
+///   <input name="testInput" type="text" class="inm-input" id="inp2__{{custom_iterator}}" aria-required="true">
+/// </div>
+@require './_mixin.styl'
+
+.c-label
+  ///# @state {inm-label}
+  mixin_label(apply_simplified_bem: true)
+
+  ///# @state {inm-label--required}
+  &--required
+    mixin_label--required()
+  
+  &--with-helper
+    mixin_label--with-helper()

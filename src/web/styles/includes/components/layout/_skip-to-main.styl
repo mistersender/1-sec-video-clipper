@@ -1,0 +1,16 @@
+@require '../forms/_button/_mixin.styl'
+
+.c-skip-to-main
+    mixin_button(apply_simplified_bem = false)
+    mixin_button--action()
+    position: fixed
+    transform: translateY(-1.3rem)
+    transition: all .2s ease-out
+    opacity: 0
+    z-index 99999
+    margin: 0 site.spacing.md
+    float-up(0.3)
+
+    &:focus, &:active
+        transform translateY(-0.1rem) // just enough that the border doesn't show at the top
+        opacity 1

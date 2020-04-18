@@ -1,0 +1,17 @@
+$silent.reset-list
+  margin 0
+  padding 0
+  list-style none
+
+// adds consistent list resets to elements that require it.
+// supports extending, meaning list reset styles can be added in
+// to the existing selector, or the selector can be added to a list of list reset selectors.
+reset-list(should_extend = false)
+  if(should_extend)
+    @extends $silent.reset-list
+
+  else
+    // todo: this should be using the reset-list variable, but i'm not sure how to...
+    margin 0
+    padding 0
+    list-style none

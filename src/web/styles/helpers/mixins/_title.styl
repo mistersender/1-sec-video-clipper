@@ -1,0 +1,31 @@
+////
+/// @author Jessica Kennedy
+/// @page stylus/mixins
+/// @name Stylus Mixins
+////
+
+///
+/// @name Title Mixin
+/// @description
+/// This mixin adds the necessary css for titles, allowing all titles to consistently share styles.
+///
+/// @markup {styl}
+/// .my-component
+///   title(true) // more common, @extends into title selector
+///
+/// .my-component
+///   title() // less common, does not extend, simply adds css to current selector
+
+$silent.title
+  font-family: site.font.family.header
+  font-weight: site.font.weight.normal
+  color: get-color('emphasized_text')
+
+title(should_extend = false)
+  if(should_extend)
+    @extends $silent.title
+
+  else
+    font-family: site.font.family.header
+    font-weight: site.font.weight.normal
+    color: get-color('emphasized_text')

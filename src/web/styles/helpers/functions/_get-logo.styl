@@ -1,0 +1,31 @@
+$logo-colors = {
+  color_1: get-color('primary'),
+  color_2: get-color('primary'),
+  color_3: get-color('primary'),
+  color_4: get-color('primary')
+}
+
+get-logo-svg(filePath, fillColor)
+  colors = merge({}, $logo-colors)
+  if (fillColor) {
+    colors.color_1 = fillColor
+    colors.color_2 = fillColor
+    colors.color_3 = fillColor
+    colors.color_4 = fillColor
+  }
+
+  content = embedurl(filePath, 'utf8')
+  content = replace('TOKEN_FILL_COLOR_1', s("%s", colors.color_1), content)
+  content = replace('TOKEN_FILL_COLOR_2', s("%s", colors.color_2), content)
+  content = replace('TOKEN_FILL_COLOR_3', s("%s", colors.color_3), content)
+  content = replace('TOKEN_FILL_COLOR_4', s("%s", colors.color_4), content)
+  content = replace('#', '%23', content) //The # in fill=fill_color is still not encoded which breaks IE11, so encode it.
+  return unquote(content)
+
+get-logo(logoColor = null, logoType = 'full')
+  if (logoType == 'icon')
+    background: get-logo-svg('logo--icon.svg', logoColor) currentColor 0 / contain no-repeat
+  else if (logoType == 'title')
+    background: get-logo-svg('logo--title.svg', logoColor) currentColor 0 / contain no-repeat
+  else
+    background: get-logo-svg('logo.svg', logoColor) currentColor 0 / contain no-repeat

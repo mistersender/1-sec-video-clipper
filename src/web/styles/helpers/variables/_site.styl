@@ -1,0 +1,107 @@
+// these colors should be referenced below only for ease of understanding for develpoers
+color_names = {
+  midnight_green: #003e52, 
+  apple_green: #76bc21,
+  manatee_gray: #979797,
+  outer_space: #424242,
+  medium_jungle_green: #2a2a2a,
+  napier_green: #45760b,
+  lust: #e82e1e,
+  green_blue: #2178bc,
+  tangelo: #eb4b00,
+}
+
+// Define all of our default variables here, which can be overridden by sending in an
+// `overrides` object
+defaults := {
+  colors: {
+    // general colors
+    white: #fff,
+    black: #000,
+    gray: color_names.outer_space,
+    background: #fff,
+    border: color_names.manatee_gray,
+    text: color_names.midnight_green,
+    emphasized_text: color_names.medium_jungle_green,
+    highlight: tint(color_names.apple_green, 75%),
+    input: color_names.midnight_green,
+    navbar: color_names.midnight_green,
+    money: color_names.napier_green,
+
+    // main site colors
+    primary: color_names.midnight_green,
+    secondary: color_names.apple_green,
+    tertiary: color_names.green_blue,
+    tertiary_text: #d2430f,
+    quaternary: color_names.napier_green,
+    accent: #ffC20e
+
+    // messaging colors
+    success: color_names.napier_green,
+    info: color_names.green_blue,
+    warning: color_names.tangelo,
+    danger: color_names.lust,
+  },
+  font:  {
+    family: {
+      normal: unquote("'Lato', sans-serif"),
+      text: unquote("'Lato', sans-serif"),
+      emphasized: unquote("'Lato', sans-serif"),
+      header: unquote("'Lato', sans-serif"),
+      input: unquote("'Lato', sans-serif")
+    },
+    weight: {
+      light: 400,
+      normal: 500,
+      medium: 600,
+      heavy: 700,
+      heaviest: 800
+    },
+    text: unquote("'Lato', sans-serif"),
+    emphasized: unquote("'Lato', sans-serif"),
+    header: unquote("'Lato', sans-serif"),
+    input: unquote("'Lato', sans-serif")
+  },
+  border: {
+    radius: 0.2rem,
+    wrapper: 1rem,
+    standard: 1px solid color_names.midnight_green
+  },
+  form: {
+    input_height: 4.4rem, // aka: 44px - Note: even numbers work best here
+    transition: 0.15s
+  },
+  wrapper: {
+    top: 2rem,
+    bottom: 2rem,
+    left: 2rem,
+    right: 2rem
+  },
+  spacing: {
+    sm: 0.8rem,
+    md: 1.6rem,
+    lg: 2.4rem
+  },
+  header: {
+    height: {
+      sm: 10.4rem, // two rows, 44px each, + 8px padding on top and bottom
+      md: 7rem,
+      lg: 8rem
+    }
+  },
+  footer: {
+    height: 6rem // aka 60px
+  },
+  site_max_width: 128rem, // aka 1280px
+  custom: {
+    includes: (), // list of custom files to include in the build. if none exists, it will add :allthethings:
+    include: true // whether to include custom css in the build at all
+  },
+  icons: { // both of these will be filled in from the `/icons` folder
+    glyphicons: {},
+    custom: {}
+  }
+}
+
+// eunsure these do not get references outside of this file.
+color_names = null

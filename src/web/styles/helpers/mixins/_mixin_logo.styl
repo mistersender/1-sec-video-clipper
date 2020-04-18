@@ -1,0 +1,97 @@
+////
+/// @author Jessica Kennedy
+/// @page elements/components
+////
+
+/// @name Logo
+/// @description
+/// The official B2C Life-in-Check logo. By default, the logo is not shipped with the theme as a _class_, as it's most likely
+/// applications are in components where it will have specific needs to fill. As such, a mixin & function are provided
+/// with the stylus files to allow for quick and easy application of a logo to suit your specific needs.
+/// 
+/// ### mixin_logo() Mixin
+/// This mixin will add a logo _inline in the css_ with additional styling, and will optionally add simplified BEM to it. It is
+/// intended to use at a top level "block" (when referencing BEM). It has several options:
+/// 
+/// `mixin_logo(apply_simplified_bem: false, logoColor, logoType, isPadded: true)`
+/// * `logoColor`: can be any color using stylus or not, eg: `logoColor: get-color('primary')`, `logoColor: #f00`
+/// * `logoType`: There are 3 types of logos that can be generated:
+///    1. `full` - the entire logo, with title text & the logo image
+///    2. `title` - only the title text, without the logo image
+///    3. `logo` - only the logo image, with no title text content
+///
+/// 
+/// ```css
+/// // first, make sure to require the helpers file in your custom stylus file
+/// // @require '../node_modules/b2c-lic-theme/dist/helpers' // path may be slightly different for you
+///
+/// .sg-logo
+///   mixin_logo(apply_simplified_bem: true) // add base logo & styles
+/// 
+///   &--xl
+///     font-size: 6em // change logo size
+///     color: get-color('primary', -3) // change logo's background color
+///   
+///   &--title-tertiary
+///     get-logo(logoType: 'title', logoColor: get-color('tertiary')) // override the logo
+///
+///   &--icon-secondary
+///     get-logo(logoType: 'icon', logoColor: get-color('secondary')) // override the logo
+/// ```
+///
+/// This logo is intentionally created to scale by simply modifying the `font-size` style. 
+/// Additionally, the background can easily be changed by setting the `color`.
+/// For example, this will yield a large logo with a purple background color:
+/// ```css
+/// .sg-logo
+///   mixin_logo(apply_simplified_bem: false)
+///   font-size: 6em // change logo size
+///   color: purple // change logo's background color
+/// ```
+///
+///
+/// ### get-logo(logoColor, logoType) Function
+/// get-logo will add the logo _inline in the rendered css_ with no additional styles. It has two properties:
+/// 
+/// * `logoColor`: can be any color using stylus or not, eg: `logoColor: get-color('primary')`, `logoColor: #f00`
+/// * `logoType`: There are 3 types of logos that can be generated:
+///    1. `full` - the entire logo, with title text & the logo image
+///    2. `title` - only the title text, without the logo image
+///    3. `logo` - only the logo image, with no title text content
+///
+/// **Please also note the syntax of the example. This logo is optimized for accessibility. Please use appropriate tags and content within.**
+///
+/// @markup {html} [window_styles=background-color: #f6f7f8;]
+///
+/// <!-- the "style" tag is representative of what your stylus should look like, not rendered css -->
+/// <style>
+/// // first, make sure to require the helpers file in your custom stylus file
+/// // @require '../node_modules/b2c-lic-theme/dist/helpers' // path may be slightly different for you
+/// .sg-logo
+///   mixin_logo(apply_simplified_bem: true) // add base logo & styles
+/// 
+///   &--xl
+///     font-size: 6em // change logo size
+///     color: get-color('primary', -3) // change logo's background color
+///   
+///   &--title-tertiary
+///     get-logo(logoType: 'title', logoColor: get-color('tertiary')) // override the logo
+///
+///   &--icon-secondary
+///     get-logo(logoType: 'icon', logoColor: get-color('secondary')) // override the logo
+/// </style>
+/// 
+/// <h1 class='sg-logo'>Basic Custom Logo</h1>
+/// <h1 class='sg-logo--xl'>Basic Custom Logo</h1>
+/// <h1 class='sg-logo--title-tertiary'>Logo with white title</h1>
+/// <h1 class='sg-logo--icon-secondary'>icon logo</h1>
+
+mixin_logo(apply_simplified_bem = false, logoColor = null, logoType = null, isPadded = true)
+  +conditional_simplified_bem(apply_simplified_bem)
+    min-height: 1em
+    min-width: 5em
+    display inline-block
+    text-indent -9999em
+    border: isPadded ? .2em solid currentColor : none // use border to denote padding, as we have "contain" set for the background.
+    color transparent
+    get-logo(logoColor, logoType)

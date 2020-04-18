@@ -1,0 +1,136 @@
+// These are the styles for the various button classes.
+// They have been split out into a mixin so that they can be included into components without including the theme specific selectors.
+//
+// Known Usages:
+//  b2b-theme: src/stylus/includes/components/button/index.styl
+//  b2b-theme: src/stylus/standalone/tingle_modal.styl
+
+// .c-button, inm-button--* (bem-ified)
+mixin_button(apply_simplified_bem = false)
+  +conditional_simplified_bem(apply_simplified_bem)
+    font-family: site.font.family.input
+    font-weight: site.font.weight.normal
+    text-decoration: none
+    padding 0 1em
+    display inline-flex
+    align-items center
+    height: site.form.input_height
+    transition: all site.form.transition ease-out
+    outline none
+    transform scale(1)
+    cursor: pointer
+    white-space: nowrap
+    border-radius: site.border.radius
+    line-height: @height
+    
+    &:hover, &:focus, &:active
+      outline none
+    
+    &:active
+      transform scale(.97)
+    
+    &:disabled, &[disabled]
+      cursor not-allowed
+
+  &__icon-left, &__icon-right
+    margin-right 0.5em
+    position relative
+    transition: transform 0.2s ease-out
+    transform: scale(1)
+    display inline-block
+    align-self center
+  
+  &__icon-right
+    margin 0 0 0 0.5em
+
+// .c-button (non bem-ified)
+mixin_button--default()
+  background: get-color('white')
+  color: get-color('primary')
+  border: 0.1rem solid currentColor // for high contrast modes
+
+  &:hover, &:focus, &:active
+    background: get-color('primary')
+    color: get-color("white")
+
+  &:active
+    background: get-color('primary', 1)
+    transform scale(.97)
+
+  &:disabled, &[disabled]
+    &, &:focus, &:hover, &:active
+      background: get-color('gray', -5)
+      color: get-color('text', -2)
+      box-shadow none
+      border-color transparent
+      transform scale(1)
+
+// .c-button--action
+mixin_button--action()
+  background: get-color('primary')
+  color: get-color('white')
+  border: 0.1rem solid transparent
+
+  &:hover, &:focus, &:active
+    background: get-color('primary', 2)
+    border-color: get-color('primary', -4)
+    color: get-color("white")
+
+  &:active
+    background: get-color('primary', -1)
+    border-color: get-color('primary', -4)
+
+  &:disabled, &[disabled]
+    &, &:focus, &:hover, &:active
+      background: get-color('gray', -5)
+      color: get-color('text', -2)
+      box-shadow none
+      border-color transparent
+
+// .c-button--danger
+mixin_button--danger()
+  background: get-color('danger')
+  color: get-color('white')
+  border: 0.1rem solid transparent
+
+  &:hover, &:focus, &:active
+    background: get-color('danger', 2)
+    border-color: get-color('danger', -4)
+    color: get-color("white")
+
+  &:active
+    background: get-color('danger', -1)
+    border-color: get-color('danger', -4)
+
+  &:disabled, &[disabled]
+    &, &:focus, &:hover, &:active
+      background: get-color('gray', -5)
+      color: get-color('text', -2)
+      box-shadow none
+      border-color transparent
+
+// .c-button--link
+mixin_button--link()
+  border: 0.1rem solid transparent
+  emphasize( normal_fontweight: true )
+  font-weight: 400
+  color: get-color('primary', 1)
+  background: transparent
+  text-decoration: underline
+
+  &:hover, &:focus
+    background: transparent
+    border: 0.1rem solid get-color('primary', -4)
+    color get-color('primary')
+    text-decoration: none
+
+  &:active
+    border: 0.1rem solid get-color('primary')
+    color get-color('primary', 2)
+    transform scale(.95)
+
+  &:disabled, &[disabled]
+    &, &:focus, &:hover, &:active
+      background: transparent
+      color: get-color('text', -2)
+

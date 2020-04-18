@@ -1,0 +1,69 @@
+@require './_checkbox'
+
+////
+/// @author Jessica Kennedy
+/// @page elements/forms
+////
+
+/// @name Radio
+/// @description
+/// Most of the accessibility enhancements have been handled for you other than labelling a group of inputs, and defining a label. For correct accessibility, (and when necessary) be sure to add a label for the radio group with a custom id, and associate that id with all related radios using `aria-labelledby="yourcustomid"`.
+///
+/// @markup {html}
+/// <label id="test__radio-label__{{custom_iterator}}" class="inm-label">Sample Radios</label>
+/// <label class="${@state}">
+///   <input checked name="test_radio_{{custom_iterator}}" type="radio" class="inm-radio__field" aria-labelledby="test__radio-label__{{custom_iterator}}">
+///   A Sample Radio (initially selected)
+/// </label>
+/// <label class="${@state}">
+///   <input name="test_radio_{{custom_iterator}}" type="radio" class="inm-radio__field" aria-labelledby="test__radio-label__{{custom_iterator}}">
+///   A Sample Radio
+/// </label>
+/// <label class="${@state}">
+///   <input disabled name="test_radio_{{custom_iterator}}" type="radio" class="inm-radio__field" aria-labelledby="test__radio-label__{{custom_iterator}}">
+///   A Disabled radio
+/// </label>
+/// <label class="${@state}">
+///   <input name="test_radio_{{custom_iterator}}" type="radio" class="inm-radio__field" aria-labelledby="test__radio-label__{{custom_iterator}}">
+///   <div class="inm-radio__label">
+///     This radio has a lot of content
+///     <br>
+///     In the label to demonstrate multiline
+///     <br>
+///     functionality
+///   </div>
+/// </label>
+///
+
+///# @state {inm-radio}
+.c-radio
+  _innerCirclePadding = 0.3em
+
+  +simplified_bem()
+    & //Place the bem-ified styles under an & selector to handle a bug in stylus with mixin blocks and @extends
+      @extends $silent.checkbox_radio
+
+    &:before
+      border-radius 100%
+
+    &.c-is-checked
+
+      &::before
+        background-color get-color('primary')
+        box-shadow 0 0 0 _innerCirclePadding get-color('white') inset
+
+      &.c-is-disabled::before
+        background-color get-color('gray')
+
+
+.c-radio
+  &__field
+    @extends .c-checkbox__field
+
+  ///# @state {inm-radio--inline}
+  &--inline
+    @extends .c-checkbox--inline
+
+  ///# @state {inm-radio--top} top-align radio with content (instead of vertically centered)
+  &--top
+    @extends .c-checkbox--top

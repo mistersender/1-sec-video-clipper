@@ -1,0 +1,135 @@
+////
+/// @author Jessica Kennedy
+/// @page elements/components
+////
+
+/// @name Expandable
+/// @description
+/// An accordion-like component that can be expanded and collapsed.
+/// Simple javascript is provided by default for expanding and collapsing nav sections appropriately.
+///
+/// This component is also optimised for use as a menu.  When using as a menu, one may choose to "sticky" the menu
+/// in place by adding a class of `js-inm-sticky--sidebar` to the top-level block. Additionally, it may be necessary to
+/// force the side-navigation below an also stickied title bar. In this case, add `data-sticky-margin-top="55"` (the height of
+/// the secondary navigation) to the top-level block. For example:
+/// ```html
+/// <!-- sticky sidebar that allots space for a sticky header as well -->
+/// <nav class="inm-expandable--sidebar inm-layout-sidebar__nav js-inm-sticky--sidebar" data-sticky-margin-top="55">
+///   <!-- nav content -->
+/// </nav>
+/// ```
+///
+/// @markup {html}
+/// <nav class="${@state}">
+///   <div class="inm-expandable__container inm-has-open-contents">
+///     <a href="#" class="inm-expandable__title--has-contents inm-is-active">Bluth</a>
+///     <div class="inm-expandable__contents">
+///       <a href="#" class="inm-expandable__title--secondary">GOB</a>
+///       <a href="#" class="inm-expandable__title--secondary">George Michael</a>
+///       <a href="#" class="inm-expandable__title--secondary">Lindsey</a>
+///       <a href="#" class="inm-expandable__title--secondary">Buster</a>
+///     </div>
+///   </div>
+///   <div class="inm-expandable__container">
+///     <a href="#" class="inm-expandable__title--has-contents">Any contents</a>
+///     <div class="inm-expandable__contents">
+///       <div class="inm-expandable__content">
+///         <h3>Expandable with content</h3>
+///         <p>Anything can go in an expandable!</p>
+///       </div>
+///     </div>
+///   </div>
+///   <div class="inm-expandable__container">
+///     <a href="#" class="inm-expandable__title">Nikolaevich</a>
+///   </div>
+/// </nav>
+.c-expandable
+  ///# @state {inm-expandable}
+  +simplified_bem()
+    list-style: none
+    background: get-color("white")
+
+  &__container
+    display: flex
+    flex-flow: row wrap
+
+  &__title
+    +simplified_bem()
+      emphasize()
+      hoverable(true, 'primary', 'white', 'primary', false)
+      border-radius: 0
+      padding: 0 1rem
+      background get-color('primary')
+      color: get-color("white")      
+      display flex
+      flex-flow row nowrap
+      justify-content: space-between
+      align-items center
+      min-height: site.form.input_height
+      line-height: 1.4em
+      text-decoration: none
+      cursor pointer
+      margin-bottom: 0.2rem;
+      flex: 1 0 auto
+      padding-top: site.spacing.sm
+      padding-bottom: site.spacing.sm
+      max-width: 100%
+      
+      &:hover, &:focus
+        emphasize()
+        color: get-color("white")
+      &.c-is-active
+        emphasize()
+        color: get-color("white") 
+        background get-color("primary", -1)
+      .c-has-open-contents &
+        &:after
+          add-icon('collapse', get-color('white'))
+
+    &--has-contents
+      &:after
+        content: ""
+        display: inline-block
+        width: 0.7em
+        height: 1.2em
+        add-icon('expand', get-color('white'))
+        transition: all site.form.transition ease-out
+
+    &--secondary
+      justify-content: flex-start
+      &:before
+        content: "\2022" // bullet unicode
+        margin: 0 1rem 0 0
+      &:after
+        display none
+
+  ///# @state {inm-expandable--sidebar} Specifically for use with the sidebar of a site
+  &--sidebar
+    border-top 0
+    max-width 24rem
+    overflow auto
+    max-height 100vh
+
+  &__contents
+    padding: 0
+    max-height 0
+    overflow hidden
+    // this animation exists to hide the contents from screen readers and tabbing until necessary to show
+    animation: collapse_expandable .01s linear .21s
+    animation-fill-mode: forwards
+    transition max-height .2s
+    flex: 0 0 100%
+
+    .c-has-open-contents &
+      max-height 100vh
+      animation: none
+      transition max-height .5s ease-in
+  
+  &__content
+    pad()
+
+@keyframes collapse_expandable
+  0
+    visibility: visible
+  100%
+    visibility: hidden

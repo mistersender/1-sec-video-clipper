@@ -1,0 +1,78 @@
+////
+/// @author Jessica Kennedy
+/// @page layout/site-colors
+/// @title Site Colors
+////
+
+/// @name Site Colors
+/// @description
+/// Several colors have been defined for use on the site. When choosing colors for an element, please attempt to choose the most contextually relevant color for the element's purpose.
+/// 
+/// Developers opting to use the stylus heplers have an added advantage of being able to include the colors by name & by deviation from the default value
+/// by using the `get-color()` in their stylus files. The first argument of the function accepts the name of the color, and the (optional) second argument
+/// accepts the deviation of the color, with `-6` being the lightest deviation, `0` being standard (default), and `6` beind the darkest. This allows
+/// developers to keep a very consistent color pallette that reacts quickly to modifications to the colors in our styling.
+/// 
+/// For example, a developer who wanted to create an error with a light background and standard danger text could write:
+/// ```scss
+/// .msg
+///   background get-color('danger', -5) // 5 stops lighter than original "danger"
+///   color get-color('danger') // the default danger color
+/// ```
+/// <div class="sg-color-guide">
+/// 
+///   <h3>Base Site Colors</h3>
+///   <div><b style="background: #003e52">#003e52</b><code>get-color('primary')</code> "Midnight Green": Primary Site color</div>
+///   <div><b style="background: #76bc21">#76bc21</b><code>get-color('secondary')</code> "Apple Green": Secondary Site color</div>
+///   <div><b style="background: #2178bc">#2178bc</b><code>get-color('tertiary')</code> "Green Blue": Tertiary Site color</div>
+///   <div><b style="background: #45760b">#45760b</b><code>get-color('quaternary')</code> "Napier Green": Quaternary Site color</div>
+///   <h3>Contextual Colors</h3>
+///   <div><b style="background: #424242">#424242</b><code>get-color('gray')</code> "Outer Space": The default gray color</div>
+///   <div><b style="background: #979797">#979797</b><code>get-color('border')</code> "Manatee": For use in borders, backgrounds, & horizontal rules</div>
+///   <div><b style="background: #69809b">#003e52</b><code>get-color('text')</code> "Midnight Green": The defaut text color</div>
+///   <div><b style="background: #dceec7">#dceec7</b><code>get-color('highlight')</code> The highlight color, primarily in regards to tables & form highlighting</div>
+///   <div><b style="background: #45760b">#45760b</b><code>get-color('money')</code> "Napier Green": Color used for money indicators</div>
+///   <div><b style="background: #45760b">#45760b</b><code>get-color('success')</code> "Napier Green": Color used to indicate a successful action or event</div>
+///   <div><b style="background: #e82e1e">#e82e1e</b><code>get-color('danger')</code> "Lust": Color used for indicating an undesirable action or event has occurred</div>
+///   <div><b style="background: #eb4b00">#eb4b00</b><code>get-color('warning')</code> "Tangelo": Color used for a warning action (user is about to do something possibly bad)</div>
+///   <div><b style="background: #2178bc">#2178bc</b><code>get-color('info')</code> "Green Blue": Info action color</div>
+/// </div>
+/// 
+/// 
+/// <style>
+/// .sg-color-guide b {
+///   margin-bottom: 10px;
+///   text-shadow: 0 0 5px #252e37;
+///   border: 0.1rem solid #e1e8ef;
+///   display: inline-flex;
+///   align-items: center;
+///   justify-content: center;
+///   width: 100px;
+///   height: 40px;
+///   border-radius: 3px;
+///   margin-right: 0.5em;
+///   font-family: monospace;
+///   color: #f9f9fb;
+/// }
+///
+/// .sg-color-guide code {
+///   margin-right: 10px;
+/// }
+/// </style>
+
+
+
+// to get all the colors & display, use this
+// for clr, key in site.colors
+//   .color--{clr}
+//     // box-shadow:
+//     //   0 0 0 0 get-color(clr, 0) inset
+//     //   for offset, key2 in [1 .. 6]
+//     //     ,-(15 * (key2 + 1))px 0 0 0 get-color(clr, offset) inset
+    
+//     b
+//       background: get-color(clr, 0)
+    
+//     &:after
+//       content: s('"%s, get-color(%s)"', key, clr) 
+    

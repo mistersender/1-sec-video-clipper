@@ -1,0 +1,56 @@
+//These are the styles for the base select.
+//They have been split out into a mixin so that they can be included into components without including the theme specific selectors.
+//
+// Known Usages:
+//  b2b-theme: src/stylus/includes/components/select/index.styl
+//  b2b-portal-navbar: tenant-switch-modal
+
+mixin_select(apply_simplified_bem = false)
+  +conditional_simplified_bem(apply_simplified_bem)
+    display: block;
+    font-family: site.font.family.input
+    font-weight: site.font.weight.normal
+    width: 100%;
+    height: site.form.input_height
+    add-icon('arrow-down', get-color('input', 1))
+    background-position: calc(100% - 0.8em - 1px) calc(50% + 1px)
+    background-size: 0.8em 0.8em // this must be explicity set for both x & y to accomodate for ie11
+    border: 1px solid get-color('input')
+    border-radius: site.border.radius;
+    box-shadow: 0 0 0 0.1rem transparent inset
+    -webkit-appearance: none;
+    padding: 0 34px 0 11px;
+    color: get-color('text')
+    font-size: 14px;
+    transition all .2s ease-out
+    
+    &::-ms-expand // this hides the select arrow in ie11
+      display: none;
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 0.1rem get-color('input', 1) inset
+      border-color get-color('input', 1)
+    }
+    &:active {
+      outline: none;
+      box-shadow: 0 0 0 0.2rem get-color('input', 1) inset
+      border-color get-color('input', 1)
+    }
+
+    &:disabled, &[disabled] {
+      background-color: get-color("gray", -3)
+      border: 0.1rem solid get-color('gray')
+      color: get-color('text', -4)
+      opacity: 0.6
+      cursor not-allowed
+    }
+  
+mixin_select--invalid()
+  border-color: get-color('danger')
+  &:active
+    box-shadow: 0 0 0 0.2rem get-color('danger') inset;
+    border-color: get-color('danger');
+  &:focus
+    box-shadow: 0 0 0 0.1rem get-color('danger') inset
+    border-color: get-color('danger');

@@ -1,0 +1,44 @@
+// This file figures out which files to include based on what is set in the site variables
+// The default, of course, is :allthethings:
+
+// # Usage
+// Note: To choose what bootstrap files are included/not, a consumer can send
+// a custom list into the "overrides" variable. For example:
+// ```styl
+// overrides := {
+//   custom: {
+//     includes: grid
+//     overrides: {
+//       alerts: "bootstrap_overrides/_alerts"
+//     },
+//     include: true
+//   }
+// }
+// ```
+// The above example would build css with only the `grid` from bootstrap included, as well as a custom override of alerts.
+// To completely remove styles from the build (except for basics):
+// `overrides.bootstrap.include = false`
+
+// Note: this is separated out because it's easier to read listed this way, and
+// for some reason stylus doesn't care for lists in this format when defining hashes.
+// it's also weird about comments in the list... so yea...
+_custom_includes = 'base',  //test
+  'components'
+
+// if the consumer defined the includes they want, those take prescidence.
+if(length(site.custom.includes))
+  _custom_includes = site.custom.includes
+
+
+// -----  Begin requiring of components ------
+
+if(site.custom.include)
+  // loop over each item listed in the bootstrap files list & include it (in the order requested)
+  for item in _custom_includes
+    if(match('/', item))
+      // it's a specific path, like "components/_address"
+      @require '%s' % unquote(item)
+    else
+      // it's a whole section, like "components", so include with a "*"
+      @require '%s/*' % unquote(item)
+

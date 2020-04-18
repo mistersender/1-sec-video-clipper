@@ -1,0 +1,143 @@
+////
+/// @author Jessica Kennedy
+/// @page elements/components
+////
+
+/// @name Junk Drawer
+/// @description
+/// A "Junk Drawer" menu for storing all the additional actions outside of the primary actions for a section.  The options within the junk drawer 
+/// will most likely contain additional events for managing the results of a "click" action. Note: the menu will emit a "click" event from the
+/// specified option on an actual click OR a keyboard event for the developer's convenience. Simply listen for a click action as normal on the option.
+///
+/// Guidance for correct usage:
+/// * If there are only 1 or 2 actions available, display them horizontally.
+/// * If there are 3 or more actions available, collapse them into an "Options" menu using the junk drawer.
+/// * Certain important actions may be promoted outside of the menu at the developer's discretion.
+/// * Given that a particular action cannot be applied to multiple items, when multiple items are selected to act upon, the action is disabled. 
+///
+/// @markup {html} [window_styles=height: 265px;]
+/// <section class="inm-junk-drawer">
+///   <div class="inm-junk-drawer__title">Additional Options</div>
+///   <div class="inm-junk-drawer__options">
+///     <a class="inm-junk-drawer__option">Save <svg class="inm-icon inm-junk-drawer__option-icon" aria-hidden="true"><use xlink:href="#inm-icon__save" /></svg></a>
+///     <div class="inm-junk-drawer__option--disabled">Delete <svg class="inm-icon inm-junk-drawer__option-icon" aria-hidden="true"><use xlink:href="#inm-icon__collapse" /></svg></div>
+///     <div class="inm-junk-drawer__option">Retry <svg class="inm-icon inm-junk-drawer__option-icon" aria-hidden="true"><use xlink:href="#inm-icon__refresh" /></svg></div>
+///   </div>
+/// </section>
+///
+.c-junk-drawer
+  _junk_drawer_padding = site.spacing.sm
+  
+  detect_node_insertion()
+  display inline-block
+  position relative
+  &__title
+    padding: s("0 calc(%s + 1em) 0 %s", _junk_drawer_padding*2, _junk_drawer_padding)
+    display inline-flex
+    position: relative
+    align-items center
+    height: site.form.input_height
+    line-height: site.form.input_height
+    box-sizing: border-box
+    emphasize(normal_fontweight: true)
+    hoverable()
+    
+    // the hamburger
+    &:before
+      content: ""
+      width: 1em
+      height: 0.1em
+      background: currentColor
+      display: block
+      position absolute
+      top calc(50% - 0.05em)
+      right: _junk_drawer_padding
+      box-shadow 0 -0.35em 0 0 currentColor, 0 0.35em 0 0 currentColor
+
+    // the triangle for the menu
+    &:after
+      z-index 100
+      content ''
+      bottom -0.3em
+      right 0.5em
+      width 0
+      height 0
+      position absolute
+      pointer-events none
+      border-left 0.7em solid transparent
+      border-right 0.7em solid transparent
+      border-bottom 0.5em solid get-color('white')
+      opacity 1
+      transition all .2s ease-out .2s
+
+    .has-closed-menu &:after
+      opacity 0
+      transition none
+      
+  
+  &__options
+    float-up(0.3)
+    border: 0.1rem solid rgba(get-color('border'), 0.2)
+    padding: _junk_drawer_padding
+    min-width 12rem
+    position absolute
+    top 100%
+    right 0
+    opacity 0 // opacity will be set by the animation to 1, if it is set to 1 here, we get an odd jumping motion
+    animation display_junk_drawer 0.5s ease-out
+    animation-fill-mode forwards
+    background get-color("white")
+    z-index 2
+    overflow hidden
+    border-radius: site.border.radius
+    
+    .has-closed-menu &
+      display none
+      animation none
+
+  &__option
+    +simplified_bem()
+      hoverable()
+      height: site.form.input_height
+      line-height: site.form.input_height
+      box-sizing: border-box
+      display: flex
+      align-items center
+      justify-content: space-between
+      padding: 0 site.spacing.sm
+      color get-color("text")
+      emphasize(normal_fontweight: true)
+      user-select none
+      z-index 2 //Z-indexed above the white square that creates the angle for the drawer bottom bar (__options::before)
+      position relative //make the z-index actually effect the element
+
+      &:hover, &:visited, &:active
+        color: get-color('text')
+      
+    &--disabled
+      &, &:hover, &:visited, &:active, &:focus
+        color get-color("text", -4)
+        border-color: transparent
+        background: none
+        cursor: not-allowed
+        box-shadow: none
+        opacity 0.8
+  
+  &__option-icon
+    flex 0 0 1em
+    margin-left: site.spacing.sm
+
+
+
+@keyframes display_junk_drawer
+  0%
+  // we must start with display none, then move to display block or we will not be able to animate because there is no referential starting point for the translate to use
+    display none
+  .01%
+    display block
+    opacity 0
+    transform translateY(-1rem)
+  100%
+    display block
+    opacity 1
+    transform translateY(0)

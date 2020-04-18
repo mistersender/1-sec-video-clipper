@@ -1,0 +1,209 @@
+mixin_input(apply_simplified_bem = false)
+  // .c-input, .c-input--*
+  +conditional_simplified_bem(apply_simplified_bem)
+    border 0.1rem solid get-color('input') // todo: consider making border a box-shadow so it takes up no space
+    color get-color('text')
+    font-family: site.font.text
+    font-weight: 400
+    display inline-flex
+    align-items center
+    background transparent
+    font-size 1.4rem
+    padding .8em
+    border-radius: site.border.radius
+    transition all .2s ease-out
+    outline none
+    min-height: site.form.input_height
+    box-sizing: border-box
+    detect_node_insertion()
+
+    // this style addresses a specific issue when using the bootstrap theme
+    &[type=search]
+      box-sizing border-box
+
+    &::after
+      border: 0.8em solid transparent;
+      display: block;
+      position: absolute;
+      top: 0
+      right: 0.2em;
+      width: 1.5em;
+      height: 1.5em;
+      transition: none;
+      content: "";
+      z-index: 99
+      order: 2
+      color: currentColor;
+      box-sizing: content-box; // this prevents wonkiness on sites that also include bootstrap
+
+    &::-webkit-input-placeholder //, &::-moz-placeholder, &:-ms-input-placeholder, &:-moz-placeholder
+      color get-color('text', -4)
+
+    &:focus, &.c-is-focused
+      outline: none
+      box-shadow 0 0 0 .1rem get-color('input', 1) inset
+      border-color: get-color('input', 1)
+
+    &:disabled
+      opacity 0.8
+      background-color: get-color("input", -5)
+      border-color get-color('input', -3)
+      color: get-color('text', -4)
+      cursor: not-allowed
+
+  // .c-input__field
+  &__field
+    outline none
+    font-family: site.font.input
+    font-weight: 400
+    width: calc(100% - 1.6em)
+    border none
+    order: 1
+    color get-color('text')
+    // this will add some background between the field and the wrapper that *looks* like the field,
+    // to make them appear to be more congruent
+    box-shadow 0 0 0 0.55em get-color('white'), 1.6em 0 0 0.55em get-color('white')
+    font-size: 1.4rem
+    height: 1.6em
+
+    &::-webkit-input-placeholder // , &::-moz-placeholder, &:-ms-input-placeholder, &:-moz-placeholder
+      color get-color('input', -4)
+
+    // all styles for disabled reside on the actual input, because the wrapper is not able to handle this easily.
+    // we use a box shadow to cover the rest of the element and make it appear grayed out
+    &:disabled
+      opacity 0.8
+      background-color: get-color('input', -5)
+      color: get-color('text', -4)
+      box-shadow: -0.1em 0 0 1rem get-color("input", -5), 2.3rem 0 0 1rem get-color("input", -5) // use box shadow to mute the icon coloring
+      z-index 2 // must be higher than the z-index of the icons to support disabled
+      cursor: not-allowed
+      border-color get-color('input', -3)
+
+  // .c-input__descriptor
+  &__descriptor
+    top: calc(100% - .4em)
+    border-radius: site.border.radius
+    float-up(1)
+    font-size: 1em;
+    position: absolute;
+    transition: opacity .35s ease-in, top .25s ease-in;
+    visibility: hidden;
+    z-index: 100;
+    right: 0;
+    height: auto;
+    font-weight: 400;
+    line-height: initial;
+    padding: .4em;
+    width: auto
+    min-width: 3em
+    text-align: center
+    order: 3
+
+    &:after
+      border: 0.6em solid transparent
+      display: block
+      position: absolute
+      right: 1.1em
+      top: -1.2em // 2x the border size
+      width: 0
+      height: 0
+      content: ""
+      z-index: 99
+      box-sizing: content-box // this prevents wonkiness on sites that also include bootstrap
+
+    // use the presence of data-message to display these contents, because
+    // we have javsacript that takes the data-message and injects it into here.
+    [data-message]:not([data-message='']) > &
+      background: get-color("tertiary", 2)
+      color: get-color("tertiary", -6)
+      opacity: 1
+      top: calc(100% + 0.4em)
+      visibility: visible
+
+      &:after
+        border-bottom-color: get-color("tertiary", 2)
+        transition: border .2s ease-in .2s
+
+  // most used with the mixin_input--toggle-hidden
+  &__controls
+    width: 1em;
+    z-index: 1;
+    height: 1em;
+    font-size: 2rem
+    margin-right: 0
+    tranition: all 0.2s ease-out
+    ~/--valid &, ~/--invalid &, ~/--warning &
+      margin-right: 3rem
+  &__control
+    color: get-color("primary")
+    transform: scale(1)
+    transition: all 0.125s ease-out
+    cursor: pointer
+    &:hover, &:focus
+      opacity: 1
+      color: get-color("primary", 2)
+      transform: scale(1.3)
+      outline: none
+      cursor: pointer
+    &:active
+      color: get-color("primary", 3)
+      transform: scale(0.95)
+      outline: none
+
+
+// .c-input--limit
+mixin_input--limit()
+  max-width 320px
+  position relative
+
+// ======================
+//    Inputs with icons
+// ======================
+
+//Couldn't put these under a silent selector because the rendering of the CSS kept placing the overrides above the base .c-input
+_with-icon(icon, color)
+  position relative
+  // padding 0 0.8em
+  display flex
+  flex-flow row nowrap
+  overflow visible
+  align-items center
+
+  &::after
+    add-icon(icon, color)
+    margin-left .8em
+    flex 0 0 auto // must specify "auto" for ie11 compatability
+    order 2
+    width 1.5em
+    z-index 1 // must be lower than the inm-input__field z-index to support disabled
+    height @width
+
+_with-icon-and-colored-status(icon, color)
+  _with-icon(icon, color)
+  color color
+  border-color currentColor
+
+  &.c-is-focused
+    box-shadow 0 0 0 0.1rem color inset
+    border-color color
+
+
+// .c-input--date
+mixin_input--date()
+  _with-icon('calendar', get-color('input', 1))
+
+// .c-input--valid
+mixin_input--valid()
+  _with-icon-and-colored-status('success', get-color('success'))
+
+// .c-input--invalid
+mixin_input--invalid()
+  _with-icon-and-colored-status('danger', get-color('danger'))
+
+// .c-input--warning
+mixin_input--warning()
+  _with-icon-and-colored-status('warning', get-color('warning'))
+
+mixin_input--toggle-hidden()
+  flex-direction: row-reverse;

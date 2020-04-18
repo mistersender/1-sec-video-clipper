@@ -1,0 +1,48 @@
+////
+/// @author Jessica Kennedy
+/// @page elements/components
+////
+
+/// @name Card
+/// @description
+/// This component is used to house important or standout information. Typically, it will only be used on "dashboard" pages.
+///
+/// @markup {html}
+/// <!-- simple -->
+/// <section class='${@state}'>
+///   <div class="inm-card__title">This is a card</div>
+///   <div class="inm-card__content">
+///     <h3>Card contents</h3>
+///     <p>Anything can go in here!</p>
+///   </div>
+/// </section>
+.c-card
+
+  ///# @state {inm-card}
+  +simplified_bem()
+    border: 0.1rem solid get-color("white")
+    border-radius: site.border.radius + (site.border.radius/2)
+    background: get-color("white")
+    overflow: hidden
+    float-up(2)
+
+  &__title
+    emphasize(true)
+    color: get-color('white')
+    background: linear-gradient(90deg, get-color("tertiary"), get-color('tertiary') 35%, get-color("tertiary", -2))
+    pad('horizontal')
+    line-height: 2em
+    font-size: 2.6rem
+    overflow: hidden 
+    white-space: nowrap
+
+    ~/--secondary &
+      background: linear-gradient(90deg, get-color("quaternary"), get-color("quaternary") 35%, get-color("quaternary", -2))
+  
+  &__content
+    pad()
+  
+  ///# @state {inm-card--secondary}
+  
+
+    

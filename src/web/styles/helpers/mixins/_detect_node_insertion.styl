@@ -1,0 +1,14 @@
+// This is a part of a clever hack for being able to know when a node has been inserted into the DOM.
+// https://davidwalsh.name/detect-node-insertion
+
+@keyframes nodeInserted {
+  from { opacity: 0.99; }
+  to { opacity: 1; }
+}
+
+// adds consistent emphasis to elements that require it.
+// supports extending, meaning emphasis styles can be added in
+// to the existing selector, or the selector can be added to a list of emphasized selectors.
+detect_node_insertion()
+  animation-duration 0.001s
+  animation-name nodeInserted

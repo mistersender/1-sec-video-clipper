@@ -1,0 +1,65 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimal-ui">
+  <link rel="shortcut icon" type="image/x-icon" href="data:image/x-icon;,">
+  <title>Video Clipper</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+  <style>
+    html {
+      font-family: 'Lato', sans-serif;
+    }
+  </style>
+
+</head>
+<body>
+
+<main class="c-layout-main">
+<div class="c-layout-main__content">
+  <div class="completed-video has-none"  id="current-completed-video">
+    <h4>Current Video</h4>
+    <video controls="false" width="300"></video>
+  </div>
+
+  <h1>Video Editor</h1>
+  <div class="video-editing">
+    <video controls="false" width="600" id="video">
+      <!-- <source src="/srcVideo/VID_20200308_165429.mp4" type="video/mp4"> -->
+    </video>
+
+    <div class="slidecontainer">
+      <input type="range" min="0" max="100" value="0" class="slider" id="sliderSelector">
+    </div>
+  </div>
+  <br>
+  <div class="c-spaced--compact">
+    <label class="c-radio--inline">
+      <input class="c-radio--field" type="radio" name="duration" value="1" onclick="videoClipper.changeDuration(1)" checked>
+      1sec
+    </label>
+    <label class="c-radio--inline">
+      <input class="c-radio--field" type="radio" name="duration" value="1.55" onclick="videoClipper.changeDuration(1.55)">
+      1.55 sec
+    </label>
+
+    <button class="c-button" onclick="videoClipper.play()">Play</button>
+    <button class="c-button--action" onclick="videoClipper.save()">Save</button>
+  </div>
+
+  <ul id="videos" class="video-list">
+
+  </ul>
+  <div id="videoClipper">
+    <router-view></router-view>
+  </div>
+</div>
+</main>
+
+<!-- the actual thing for testing -->
+<script src="/dist/videoClipper.min.js"></script>
+
+</body>
+</html>

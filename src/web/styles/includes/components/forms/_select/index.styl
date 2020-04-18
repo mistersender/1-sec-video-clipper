@@ -1,0 +1,103 @@
+////
+/// @author Jessica Kennedy
+/// @page elements/forms
+/// @title Forms
+////
+
+/// @name Select
+/// @description
+/// The select box is styled for use with [choices.js](https://joshuajohnson.co.uk/Choices/),
+/// which is bundled in the `theme_v2.js` for your convenience.
+///
+/// The example shows a simple select, however all the available options from [choices.js](https://joshuajohnson.co.uk/Choices/) are available to use, including:
+/// * multi-select
+/// * searchable selects
+/// * tag based inputs
+///
+/// See [choices.js documentation](https://joshuajohnson.co.uk/Choices/) for details about how to use these features.
+///
+/// There are several options for using selects. The first, (recommended) is opting in to the auto-enhancement.
+/// For convenience, all selects with a class of `inm-select--js` will be auto-enhanced when the element
+/// appears on the screen with several default values set, as shown below:
+/// ```javascript
+/// // default values set by inm-select--js
+/// {
+///   searchEnabled: false,
+///   itemSelectText: '',
+///   shouldSort: false,
+/// }
+/// ```
+///
+/// Any options choices.js provides (including these 3 defaults) may be easily overridden on initialization
+/// by passing the desired overrides in (JSON stringified) via the data attribute `data-inm-select`. For
+/// example:
+/// ```html
+/// <!-- enable search for this select -->
+/// <select id="mySearchableSelect" aria-label="Searchable Select Example" class="inm-select--js" data-inm-select='{"searchEnabled":true}'>
+///  <option placeholder>Choose...</option>
+///  <option value="1">Choice 1</option>
+///  <option value="2">Choice 2</option>
+/// </select>
+/// ```
+///
+/// Additionally, any classes that are not prefixed wtih `inm-select` will automatically be added to the outer wrapper of the
+/// enhanced select.
+///
+/// #### Advanced Select Usage
+/// Sometimes, selects require some advanced usage where simply relying on the auto-enhancement is not enough.
+/// In these cases, the developer may choose to create the select themselves. To opt-out of using the
+/// auto-enhancement, simply use the class `inm-select` in lieu of `inm-select--js`, and initialize the select
+/// via javascript.
+///
+/// ```html
+/// <select id="myAdvancedSelect" aria-label="Advanced Select Example" class="inm-select">
+///  <option placeholder>Choose...</option>
+///  <option value="1">Choice 1</option>
+///  <option value="2">Choice 2</option>
+/// </select>
+///
+/// <script>
+///   import Theme from 'b2c-lic-theme'
+///   var selectEl = document.getElementById('myAdvancedSelect')
+///
+///   Theme.select(selectEl, {
+///     searchEnabled: true,
+///     itemSelectText: '',
+///     shouldSort: sort,
+///     classNames: { containerOuter: 'some-fancy-class' }
+///   });
+///  </script>
+/// ```
+///
+/// @markup {html} [window_styles=height: 260px;]
+/// <!-- basic select with NO enhancements -->
+/// <select class="${@state}" aria-label="Basic select without enhancements">
+///  <option placeholder>Choose...</option>
+///  <option value="1">Choice 1</option>
+///  <option value="2">Choice 2</option>
+/// </select>
+/// <br>
+///
+/// <!-- Enhanced required select -->
+/// <select class="${@state} inm-select--js" aria-label="Enhanced Select" aria-required="true">
+///  <option placeholder>Choose...</option>
+///  <option value="1">Choice 1</option>
+///  <option value="2">Choice 2</option>
+/// </select>
+
+@require './_mixin.styl'
+
+// before inm-selectjs is applied, make the basic inm-selects look like something
+///# @state {inm-select}
+.c-select
+  mixin_select(apply_simplified_bem: true)
+
+  ///# @state {inm-select--invalid}
+  &--invalid
+    mixin_select--invalid()
+
+//.c-select--js are the classes that the javascript looks for to enhance with Choices.js
+//.c-selectjs is the css class used to style the enhanced Choices.js select.
+
+///# @state {inm-select--js}
+@require './_choices-js.styl'

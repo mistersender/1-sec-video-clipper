@@ -1,0 +1,14 @@
+// adds the css for an icon (typically for pseudo elements)
+// it does so dynamically, choosing custom icons if they exist,
+// otherwise falling back to bootstrap-glyphicons
+add-icon(icon, fill_color = currentColor, icon_root = './icons')
+  path = embedurl(s('%s/%s.svg', unquote(icon_root), unquote(icon)), 'utf8')
+  fill = s('%3Cpath fill=%22%s%22', fill_color)
+  path = replace('%3Cpath', fill, path)
+  
+  //The # in fill=fill_color is still not encoded which breaks IE11, so encode it.
+  path = replace('#', '%23', path) 
+
+  // custom icons always take prescedence over native bootstrap glyphs
+  if(icon in site.icons.custom)
+    background: unquote(path) 50% 50% / contain no-repeat

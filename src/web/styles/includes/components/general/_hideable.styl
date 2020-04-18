@@ -1,0 +1,30 @@
+////
+/// @author Jessica Kennedy
+/// @page elements/components
+////
+
+/// @name Hideable
+/// @description
+/// A util for hiding elements as the screen decreases/increases in size
+///
+/// @markup {html}
+/// <p>I will always show<p>
+/// <p class="inm-hideable">I will hide at 568px<p>
+/// <p class="inm-hideable--md">I will hide at 768px<p>
+/// <p class="inm-hideable--lg">I will hide at 1000px<p>
+
+
+// note: this should **NOT** use simplified BEM, as we want the displays to be explicit, and not inherit base styles
+.c-hideable
+  // using max-width for these because it is FAR easier to hide things than re-show them with tables.
+  @media (max-width: 567px)
+    // note: using `!important` because this is a util, and should always be expected to work in this way when applied to an element.
+    display: none !important
+
+  &--md
+    @media (max-width: 767px)
+      display: none !important
+
+  &--lg
+    @media (max-width: 999px)
+      display: none !important

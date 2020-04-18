@@ -1,0 +1,187 @@
+.c-layout-main
+  min-height: s("calc(100vh - %s)",  site.header.height.sm + site.footer.height)
+  position: relative
+  padding: 0
+  display flex
+  flex-flow: column nowrap
+  justify-content: stretch
+  margin-top: site.header.height.sm // margin-top follows the height of the navbar
+
+  @media (min-width: 568px)
+    margin-top: site.header.height.md
+    min-height: s("calc(100vh - %s)",  site.header.height.md + site.footer.height)
+  
+  @media (min-width: 850px)
+    margin-top: site.header.height.lg
+    min-height: s("calc(100vh - %s)",  site.header.height.lg + site.footer.height)
+  
+  
+  &__content-area
+      flex 1 1 auto // specify auto or ie11 borks
+      // 12rem == navbar height(5rem) + footer height(~6rem)
+      min-height: s("calc(100vh - %s)",  site.header.height.sm + site.footer.height)
+      
+      @media (min-width: 568px)
+        min-height: s("calc(100vh - %s)",  site.header.height.md + site.footer.height)
+      
+      @media (min-width: 850px)
+        min-height: s("calc(100vh - %s)",  site.header.height.lg + site.footer.height)
+  
+  &__content
+    +simplified_bem()
+      margin: 0 auto
+      // only matters at largest viewport, so set using large. This is to offset the padding on the rest of the content
+      max-width: site.site_max_width + site.spacing.lg + site.spacing.lg
+      width: 100%
+      pad()
+      background: get-color('white')
+      flex 1 1 auto // specify auto or ie11 borks
+    
+    &--secondary
+      pad('horizontal')
+      background get-color('background')
+    
+    &--with-expanded-header
+      padding-top 3.5rem // a little more than normal
+      background: transparent
+
+    &--full
+      padding: 0
+      background: transparent
+
+.c-layout-footer
+  display: block
+  align-items: center
+  justify-content: stretch
+  height: site.footer.height + 3rem // this is to account for VERY small screens. (under 430px) where we need more space for links
+  font-size: 1em
+  font-weight: site.font.weight.normal
+  // max width only matters on large viewports, so set using the largest spacing to account for padding
+  max-width: site.site_max_width + site.spacing.lg + site.spacing.lg
+  margin: 0 auto
+  color: get-color('gray')
+  border-top: 0.1rem solid get-color('border')
+  pad()
+  background: get-color('background')
+  position relative
+  text-align: center
+  z-index 1 // this prevents stickied sidebars from overflowing awkwardly
+  detect_node_insertion()
+  
+  @media (min-width: 430px)
+    height: site.footer.height
+    display: flex
+    justify-content: space-between
+    text-align: left
+
+  &__rights
+    display: inline-block
+    @media (min-width: 430px)
+      display: block
+    @media (min-width: 768px)
+      display: inline-block
+  
+  &__language-secton
+    flex: 0 0 auto
+  
+  &__language
+    // note: typically we do min-width, but as we are overriding the inm-button only on small breakpoints, we do a max-width here.
+    @media(max-width: 767px)
+      padding-left: 0.2rem
+      padding-right: @padding-left
+
+
+.c-layout-sidebar
+  display flex
+  flex-flow: row nowrap
+  overflow hidden
+
+  .c-simple-sticky-placeholder
+    display: none
+
+  &__nav
+    flex 0 0 30rem
+    // min-height rem = navbar height (5rem) + footer height (6rem) - 0rem padding
+    min-height: s("calc(100vh - %s)",  site.header.height.sm + site.footer.height)
+    background: get-color('white')
+    width 30rem
+    pad('all', 1rem) // this is only half the standard site size
+    position: fixed
+    // top = nabar height
+    top: site.header.height.sm
+    // height rem = navbar height (5rem) + top padding (1rem)
+    height: s("calc(100vh - %s)", site.header.height.sm + 1)
+    margin-top: 0
+    display: none; //hide for now.
+    
+    @media (min-width: 568px)
+      min-height: s("calc(100vh - %s)",  site.header.height.md + site.footer.height)
+      top: site.header.height.md
+      height: s("calc(100vh - %s)", site.header.height.md + 1)
+    
+    @media (min-width: 850px)
+      min-height: s("calc(100vh - %s)",  site.header.height.lg + site.footer.height)
+      top: site.header.height.lg
+      height: s("calc(100vh - %s)", site.header.height.lg + 1)
+    
+    @media (min-width: 1000px)
+      display: block;
+
+  &__content-area
+    flex 0 1 auto
+    overflow hidden
+    margin: 0 auto
+    width: 100%
+    max-width: site.site_max_width
+    background: get-color('background')
+    // min-height = navbar height (5rem) + footer height (~6rem)
+    min-height: s("calc(100vh - %s)",  site.header.height.sm + site.footer.height)
+    @media (min-width: 568px)
+      min-height: s("calc(100vh - %s)",  site.header.height.md + site.footer.height)
+    
+    @media (min-width: 850px)
+      min-height: s("calc(100vh - %s)",  site.header.height.lg + site.footer.height)
+    
+    // When a content-area exist as a sibling to a stickied sidebar nav, we push over to give space for the nav.
+    ~/__nav + &
+      @media (min-width: 1000px)
+        margin-left 24rem
+  
+    &.has-expanded-header
+      background: transparent
+
+  &__content
+    flex 0 1 auto
+    overflow hidden
+    width 100%
+    pad()
+    background: get-color('white')
+    padding-bottom: site.spacing.md
+    border-top: none
+    border-bottom: none
+    
+    ~/__nav + &
+      @media (min-width: 1000px)
+        margin-left 24rem
+    
+    // this override is explicity to allow for some degree of backwards compatibility, as content-area did not previously exist before v2
+    ~/__content-area &
+      margin-left 0
+
+
+// This is a part of a clever hack for being able to know when a node has been inserted into the DOM.
+// https://davidwalsh.name/detect-node-insertion
+
+@keyframes stickyNodeInserted {
+  from { opacity: 0.99; }
+  to { opacity: 1; }
+}
+
+// adds consistent emphasis to elements that require it.
+// supports extending, meaning emphasis styles can be added in
+// to the existing selector, or the selector can be added to a list of emphasized selectors.
+.js-inm-sticky
+  +simplified_bem()
+    animation-duration 0.001s
+    animation-name stickyNodeInserted
+
