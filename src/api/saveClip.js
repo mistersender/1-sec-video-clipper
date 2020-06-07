@@ -12,6 +12,7 @@ const getDateInfo = function (rawDateInfo) {
 }
 
 module.exports = async function(req, res){
+  createDirectories()
   let clip = req.body.clipName.replace('/srcVideo/', '')
   let srcVideo = `./srcVideo/${clip}`
   let dateInfo = getDateInfo(req.body.dateInfo)

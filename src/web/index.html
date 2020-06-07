@@ -19,35 +19,41 @@
 
 <main class="c-layout-main">
 <div class="c-layout-main__content">
-  <div class="completed-video has-none"  id="current-completed-video">
-    <h4>Current Video</h4>
-    <video controls="false" width="300"></video>
-  </div>
+  <section class="c-video-editor">
+    <div class="c-video-editor__videos c-spaced">
+      <div class="c-video-editor__current-video">
+        <h1>Video Editor</h1>
+        <div class="video-editing">
+          <video controls="false" width="600" id="video">
+            <!-- <source src="/srcVideo/VID_20200308_165429.mp4" type="video/mp4"> -->
+          </video>
 
-  <h1>Video Editor</h1>
-  <div class="video-editing">
-    <video controls="false" width="600" id="video">
-      <!-- <source src="/srcVideo/VID_20200308_165429.mp4" type="video/mp4"> -->
-    </video>
-
-    <div class="slidecontainer">
-      <input type="range" min="0" max="100" value="0" class="slider" id="sliderSelector">
+          <div class="slidecontainer">
+            <input type="range" min="0" max="100" value="0" class="slider" id="sliderSelector">
+          </div>
+        </div>
+      </div>
+      <div class="c-video-editor__saved-video has-none"  id="current-completed-video">
+        <h4>Current Video</h4>
+        <video controls="false" width="300"></video>
+      </div>
     </div>
-  </div>
-  <br>
-  <div class="c-spaced--compact">
-    <label class="c-radio--inline">
-      <input class="c-radio--field" type="radio" name="duration" value="1" onclick="videoClipper.changeDuration(1)" checked>
-      1sec
-    </label>
-    <label class="c-radio--inline">
-      <input class="c-radio--field" type="radio" name="duration" value="1.55" onclick="videoClipper.changeDuration(1.55)">
-      1.55 sec
-    </label>
 
-    <button class="c-button" onclick="videoClipper.play()">Play</button>
-    <button class="c-button--action" onclick="videoClipper.save()">Save</button>
-  </div>
+    <br>
+    <div class="c-spaced--compact">
+      <label class="c-radio--inline">
+        <input class="c-radio--field" type="radio" name="duration" value="1" onclick="videoClipper.changeDuration(1)" checked>
+        1sec
+      </label>
+      <label class="c-radio--inline">
+        <input class="c-radio--field" type="radio" name="duration" value="1.55" onclick="videoClipper.changeDuration(1.55)">
+        1.55 sec
+      </label>
+
+      <button class="c-button" onclick="videoClipper.play()">Play</button>
+      <button class="c-button--action" onclick="videoClipper.save()">Save</button>
+    </div>
+  </section>
 
   <ul id="videos" class="video-list">
 

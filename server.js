@@ -4,6 +4,13 @@ const saveClip = require('./src/api/saveClip')
 const getClips = require('./src/api/getClips')
 const bodyParser = require('body-parser');
 const app = express();
+const mkdirp = require('mkdirp')
+
+// Ensure required folders exist
+mkdirp('./1-sec-originals')
+mkdirp('./srcVideo')
+mkdirp('./srcVideoScreenshot')
+mkdirp('./destVideo')
 
 app.use(bodyParser.json()) // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })) // support encoded bodies

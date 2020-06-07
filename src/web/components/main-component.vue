@@ -1,7 +1,7 @@
 <template>
-  <section v-if="sortedVideos">
+  <section v-if="sortedVideos" class="c-video-clipper">
+    <label class="c-label" for="saveMonth">Save for date</label>
     <div>
-      Save for date: 
       <input class="c-input saveDate" type="text" maxlength="2" v-model="saveMonth" id="saveMonth">
       -
       <input class="c-input saveDate" type="text" maxlength="2" v-model="saveDay" id="saveDay">
@@ -9,18 +9,20 @@
       <input class="c-input saveDate--year" type="text" maxlength="4" v-model="saveYear" id="saveYear">
     </div>
     <br>
-    <section class="video-options">
-      <div v-for="opt in selectedDay.options" v-bind:key="opt" v-on:click="tryVideo(opt)" class="video-options__option">
+    <div class="c-label">Video/Photo Options</div>
+    <section class="c-video-options">
+      <div v-for="opt in selectedDay.options" v-bind:key="opt" v-on:click="tryVideo(opt)" class="c-video-options__option">
         <img :src="opt.screenshotLocation" class="cal__video-ss">
       </div>
+      <div v-if="!selectedDay.options || !(selectedDay.options && selectedDay.options.length)" v-for="placeholder in [1,2,3]" v-bind:key="placeholder" class="c-video-options__placeholder"></div>
     </section>
-    <h1>All Videos</h1>
-    <div>Years: <a href="#" class="years" v-for="year in Object.keys(sortedVideos)" :key="year" @click.prevent="updateYear(year)">{{year}}</a></div>
-    <br>
-    <div>Month: <input class="c-input" type="number" min="1" max="12" v-model="desiredMonth"></div>
     <br>
     <section class="cal">
-      <h2 class="cal__month">{{mm(currentMonth).format('MMMM')}} {{currentYear}}</h2>
+      <div class="cal__header">
+        <button type="button" class="c-button cal__move" @click.prevent="updateMonth(-1)"><<</button>
+        <h2 class="cal__month">{{mm(currentMonth).format('MMMM')}} {{currentYear}}</h2>
+        <button type="button" class="c-button cal__move" @click.prevent="updateMonth(1)">>></button>
+      </div>
       <div class="cal__week">
         <div class="cal__day">Sun</div>
         <div class="cal__day">Mon</div>
@@ -94,6 +96,20 @@ export default {
     this.updateRoute()
   },
   methods: {
+    updateMonth(increaseBy){
+      let currentMonth = parseInt(this.currentMonth)
+      if(increaseBy > 0 && currentMonth == 12){
+        this.desiredMonth = 1
+        this.updateYear(parseInt(this.currentYear) + 1)
+        return
+      }
+      if(increaseBy < 0 && currentMonth == 1){
+        this.desiredMonth = 12
+        this.updateYear(parseInt(this.currentYear) - 1)
+        return
+      }
+      this.desiredMonth = currentMonth + increaseBy
+    },
     updateYear(year){
       this.currentYear = year
       this.updateRoute()
@@ -172,7 +188,6 @@ export default {
       }
 
       let calendar = []
-      console.log(startWeek, endWeek)
       for(var week = startWeek; week <= endWeek; week++){
         calendar.push({
           week: week,
@@ -186,9 +201,12 @@ export default {
 }
 </script>
 <style lang="stylus">
-.video-options
+.c-video-clipper
+  min-height: 80rem
+.c-video-options
   display flex
   flex-flow: row nowrap
+  min-height: 5rem
   &__option
     cursor: pointer
     box-shadow: 0 0 0 0 #cdcdcd 
@@ -199,10 +217,23 @@ export default {
       box-shadow: 0 0 0 0.3rem darken(#cdcdcd, 20%)
     & + &
       margin-left: 0.4rem
+  &__placeholder
+    height: 5rem
+    width: 7rem
+    background: #cdcdcd
+    & + &
+      margin-left: 0.5em
 .cal
   border: 0.1rem solid #cdcdcd
 // .cal__month
 //   border-bottom: 0.1rem solid #cdcdcd
+.cal__header
+    display: flex
+    justify-content: space-between;
+    align-items: center;
+.cal__move
+    flex: 0 0 auto
+    margin: 0 1em
 .cal__week
   display: flex
   flex-flow: row-nowrap
@@ -231,6 +262,7 @@ export default {
   background: #ddd
 .cal__video-ss
   max-width: 75px
+  max-height: 50px
 .is-done
   background: rgba(#4CAF50, 30%)
   min-height: 25px
